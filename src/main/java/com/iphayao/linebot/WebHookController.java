@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class WebHookController {
 
-    @PostMapping("/callback")
+    @PostMapping("/callbackk")
     String callBack(){
         return "call back";
     }
