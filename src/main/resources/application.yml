@@ -1,4 +1,9 @@
 line.bot:
-  channel-token: 'Put Your Channel Token Here.'
-  channel-secret: 'Put Your Channel Secret Here.'
   handler.path: /callback
+
+server:
+  port: 8808
+line:
+  bot:
+    channel-token: 12f65f989fba8037a66282f28096df90
+    channel-secret: XGDSRdYEUV6yhN8l7df0WlxdaP6MwpD+DHDeVNvzk3cqfUq90NYXAUfIR9oQi2ai3LLlThWM4tZdT4cUQ03SSTjivHDNbQabySkuOe+G0bN2uChRVsVGjGSmMklER+Ynk8KrfkKAVtxWRCr9o/qJdwdB04t89/1O/w1cDnyilFU=
