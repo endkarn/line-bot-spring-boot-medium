@@ -1,8 +1,8 @@
+
+
 line.bot:
   handler.path: /callback
 
-server:
-  port: 8808
 line:
   bot:
     channel-token: 12f65f989fba8037a66282f28096df90
