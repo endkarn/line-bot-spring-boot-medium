@@ -11,4 +11,9 @@ public class WebHookController {
     String callBack(){
         return "helloworld";
     }
+
+    @PostMapping("/helloworld")
+    String postCall(){
+        return "helloworld";
+    }
 }
