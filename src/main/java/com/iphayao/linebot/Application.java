@@ -11,8 +11,11 @@ import java.nio.file.Path;
 public class Application {
     static Path downloadedContentDir;
 
+    private static LinePushMessageService linePushMessageService = new LinePushMessageService();
+
     public static void main(String[] args) throws IOException {
         downloadedContentDir = Files.createTempDirectory("line-bot");
         SpringApplication.run(Application.class, args);
+        linePushMessageService.linePushMessage();
     }
 }
