@@ -103,10 +103,10 @@ public class LineBotController {
         switch (text) {
             case "Profile": {
                 String userId = event.getSource().getUserId();
-                if(userId != null) {
+                if (userId != null) {
                     lineMessagingClient.getProfile(userId)
                             .whenComplete((profile, throwable) -> {
-                                if(throwable != null) {
+                                if (throwable != null) {
                                     this.replyText(replyToken, throwable.getMessage());
                                     return;
                                 }
@@ -115,6 +115,20 @@ public class LineBotController {
                                         new TextMessage("Status message: " + profile.getStatusMessage()),
                                         new TextMessage("User ID: " + profile.getUserId())
                                 ));
+                            });
+                }
+                break;
+            }
+            case "Liff": {
+                String userId = event.getSource().getUserId();
+                if (userId != null) {
+                    lineMessagingClient.getProfile(userId)
+                            .whenComplete((profile, throwable) -> {
+                                if (throwable != null) {
+                                    this.replyText(replyToken, throwable.getMessage());
+                                    return;
+                                }
+                                this.replyText(replyToken, "line://app/1630213822-5nm9yX07");
                             });
                 }
                 break;
@@ -131,12 +145,12 @@ public class LineBotController {
         ));
     }
 
-    private void replyText(@NonNull  String replyToken, @NonNull String message) {
-        if(replyToken.isEmpty()) {
+    private void replyText(@NonNull String replyToken, @NonNull String message) {
+        if (replyToken.isEmpty()) {
             throw new IllegalArgumentException("replyToken is not empty");
         }
 
-        if(message.length() > 1000) {
+        if (message.length() > 1000) {
             message = message.substring(0, 1000 - 2) + "...";
         }
         this.reply(replyToken, new TextMessage(message));
