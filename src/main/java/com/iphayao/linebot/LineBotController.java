@@ -143,7 +143,7 @@ public class LineBotController {
 //                String pathConfigFlex = new ClassPathResource("richmenu/richmenu-flexs.yml").getFile().getPath();
                 String pathImageFlex = "richmenu/richmenu-flexs.jpg";
                 String pathConfigFlex = this.getClass().getClassLoader().getResource("richmenu/richmenu-flexs.yml").toExternalForm();
-                System.out.println("check path" +pathConfigFlex);
+
                 String userId = event.getSource().getUserId();
                 if (userId != null) {
                     lineMessagingClient.getProfile(userId)
@@ -152,6 +152,7 @@ public class LineBotController {
                                     this.replyText(replyToken, throwable.getMessage());
                                     return;
                                 }
+                                System.out.println(" #### \n\n ##################### \n check path" +pathConfigFlex);
                                 RichMenuHelper.createRichMenu(lineMessagingClient, pathConfigFlex, pathImageFlex, userId);
                             });
                 }
