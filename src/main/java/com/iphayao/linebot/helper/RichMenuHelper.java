@@ -98,7 +98,7 @@ public class RichMenuHelper {
         log.info("{}", botApiResponse);
     }
 
-    private RichMenu loadYaml(String path) throws IOException {
+    private static RichMenu loadYaml(String path) throws IOException {
         final Yaml YAML = new Yaml();
         final ObjectMapper OBJECT_MAPPER = ModelObjectMapper
                 .createNewObjectMapper()
@@ -109,7 +109,7 @@ public class RichMenuHelper {
                 .configure(FAIL_ON_UNKNOWN_PROPERTIES, true)
                 .configure(INDENT_OUTPUT, true);
 
-        System.out.println("check \n\n\n "+this.getClass().getClassLoader().getResource("richmenu.yml"));
+//        System.out.println("check \n\n\n "+this.getClass().getClassLoader().getResource("richmenu.yml"));
 
         Object yamlAsObject;
         try(FileInputStream is = new FileInputStream("richmenu.yml")) {
