@@ -149,6 +149,7 @@ public class LineBotController {
                 Yaml YAML = new Yaml();
                 Object yamlAsObject;
                 yamlAsObject = YAML.load(in);
+                in.close();
                 System.out.println("\n\n\n\n\n\n\n YAMLYAMLYAMLYAML");
 
                 try(FileInputStream is = new FileInputStream(pathConfigFlex)) {
