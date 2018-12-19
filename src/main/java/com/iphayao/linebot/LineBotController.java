@@ -149,7 +149,7 @@ public class LineBotController {
 
                 Yaml YAML = new Yaml();
                 Object yamlAsObject;
-                yamlAsObject = YAML.load( getClass().getClassLoader().getResourceAsStream("richmenu.yml"));
+                yamlAsObject = YAML.load( getClass().getClassLoader().getResourceAsStream("richmenu/richmenu-flexs.yml"));
 
                 System.out.println(new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(yamlAsObject));
 
