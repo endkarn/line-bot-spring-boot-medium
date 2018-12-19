@@ -100,7 +100,7 @@ public class LineBotController {
 
     }
 
-    private void handleTextContent(String replyToken, Event event, TextMessageContent content){
+    private void handleTextContent(String replyToken, Event event, TextMessageContent content) {
         String text = content.getText().toLowerCase();
 
         log.info("Got text message from %s : %s", replyToken, text);
@@ -142,8 +142,8 @@ public class LineBotController {
 //                String pathImageFlex = new ClassPathResource("richmenu/richmenu-flexs.jpg").getFile().getPath();
 //                String pathConfigFlex = new ClassPathResource("richmenu/richmenu-flexs.yml").getFile().getPath();
                 String pathImageFlex = "richmenu/richmenu-flexs.jpg";
-                String pathConfigFlex = this.getClass().getClassLoader().getResource("richmenu/richmenu-flexs.yml").toExternalForm();
-
+//                String pathConfigFlex = this.getClass().getClassLoader().getResource("richmenu/richmenu-flexs.yml").toExternalForm();
+                String pathConfigFlex = "richmenu/richmenu-flexs.yml";
                 String userId = event.getSource().getUserId();
                 if (userId != null) {
                     lineMessagingClient.getProfile(userId)
@@ -152,7 +152,7 @@ public class LineBotController {
                                     this.replyText(replyToken, throwable.getMessage());
                                     return;
                                 }
-                                System.out.println(" #### \n\n ##################### \n check path" +pathConfigFlex);
+                                System.out.println(" #### \n\n ##################### \n check path" + pathConfigFlex);
                                 RichMenuHelper.createRichMenu(lineMessagingClient, pathConfigFlex, pathImageFlex, userId);
                             });
                 }
