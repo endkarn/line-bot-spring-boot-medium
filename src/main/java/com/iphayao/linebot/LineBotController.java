@@ -100,7 +100,7 @@ public class LineBotController {
 
     }
 
-    private void handleTextContent(String replyToken, Event event, TextMessageContent content) throws IOException {
+    private void handleTextContent(String replyToken, Event event, TextMessageContent content){
         String text = content.getText().toLowerCase();
 
         log.info("Got text message from %s : %s", replyToken, text);
@@ -143,6 +143,7 @@ public class LineBotController {
 //                String pathConfigFlex = new ClassPathResource("richmenu/richmenu-flexs.yml").getFile().getPath();
                 String pathImageFlex = "richmenu/richmenu-flexs.jpg";
                 String pathConfigFlex = this.getClass().getClassLoader().getResource("richmenu/richmenu-flexs.yml").toExternalForm();
+                System.out.println("check path" +pathConfigFlex);
                 String userId = event.getSource().getUserId();
                 if (userId != null) {
                     lineMessagingClient.getProfile(userId)
