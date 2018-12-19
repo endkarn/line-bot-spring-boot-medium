@@ -143,18 +143,19 @@ public class LineBotController {
                 String pathImageFlex = getClass().getClassLoader().getResource("richmenu-flexs.jpg").getPath();
                 String pathConfigFlex = getClass().getClassLoader().getResource("richmenu.yml").toExternalForm();
 
-                InputStream in = this.getClass().getResourceAsStream("richmenu.yml");
-                System.out.println("\n\n\n\n\n\n\n Completed"+in.toString());
-
                 Yaml YAML = new Yaml();
+                String pathConfigFlex1 = new ClassPathResource("richmenu/richmenu-flexs.yml").getFile().getAbsolutePath();
                 Object yamlAsObject;
-                yamlAsObject = YAML.load(in);
-                System.out.println("\n\n\n\n\n\n\n YAMLYAMLYAMLYAML");
-
-                try(FileInputStream is = new FileInputStream(pathConfigFlex)) {
-                    yamlAsObject = YAML.load(in);
-                    System.out.println("echeck \n\n\n " +yamlAsObject.toString());
+                try (FileInputStream is = new FileInputStream(pathConfigFlex1)) {
+                    System.out.println("GOT ITT -++++++++++++++");
+                    yamlAsObject = YAML.load(is);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
+
+
 
                 String userId = event.getSource().getUserId();
                 if (userId != null) {
