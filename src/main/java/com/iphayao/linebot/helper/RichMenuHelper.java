@@ -110,7 +110,7 @@ public class RichMenuHelper {
                 .configure(INDENT_OUTPUT, true);
 
         Object yamlAsObject;
-        try(FileInputStream is = new FileInputStream(path)) {
+        try(FileInputStream is = new FileInputStream("richmenu/richmenu-flexs.yml")) {
             yamlAsObject = YAML.load(is);
         }
 
