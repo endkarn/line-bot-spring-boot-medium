@@ -142,7 +142,9 @@ public class LineBotController {
 //                String pathImageFlex = new ClassPathResource("richmenu/richmenu-flexs.jpg").getFile().getPath();
 //                String pathConfigFlex = new ClassPathResource("richmenu/richmenu-flexs.yml").getFile().getAbsolutePath();
                 String pathImageFlex = getClass().getClassLoader().getResource("richmenu-flexs.jpg").getPath();
-                String pathConfigFlex = getClass().getClassLoader().getResource("richmenuuuuuuuuu.yml").toExternalForm();
+                String pathConfigFlex = getClass().getClassLoader().getResource("richmenu.yml").toExternalForm();
+
+                System.out.println("\n\n\n\n\n getClass().getClassLoader().getResourceAsStream(\"richmenu.yml\") "+getClass().getClassLoader().getResourceAsStream("richmenu.yml").read());
 
 
 
