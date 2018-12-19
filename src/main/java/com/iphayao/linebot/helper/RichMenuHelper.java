@@ -109,8 +109,6 @@ public class RichMenuHelper {
                 .configure(FAIL_ON_UNKNOWN_PROPERTIES, true)
                 .configure(INDENT_OUTPUT, true);
 
-//        System.out.println("check \n\n\n "+this.getClass().getClassLoader().getResource("richmenu.yml"));
-
         Object yamlAsObject;
         try(FileInputStream is = new FileInputStream("richmenu.yml")) {
             yamlAsObject = YAML.load(is);

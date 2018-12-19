@@ -97,7 +97,7 @@ public class LineBotController {
 
     }
 
-    private void handleTextContent(String replyToken, Event event, TextMessageContent content) {
+    private void handleTextContent(String replyToken, Event event, TextMessageContent content) throws IOException {
         String text = content.getText().toLowerCase();
 
         log.info("Got text message from %s : %s", replyToken, text);
@@ -136,11 +136,8 @@ public class LineBotController {
                 break;
             }
             case "flex": {
-//                String pathImageFlex = new ClassPathResource("richmenu/richmenu-flexs.jpg").getFile().getPath();
-//                String pathConfigFlex = new ClassPathResource("richmenu/richmenu.yml").getFile().getPath();
-                String pathImageFlex = "richmenu/richmenu-flexs.jpg";
-                String pathConfigFlex = this.getClass().getClassLoader().getResource("richmenu/richmenu-flexs.yml").getPath();
-//                String pathConfigFlex = "richmenu/richmenu.yml";
+                String pathImageFlex = new ClassPathResource("richmenu/richmenu-flexs.jpg").getFile().getPath();
+                String pathConfigFlex = new ClassPathResource("richmenu/richmenu-flexs.yml").getFile().getAbsolutePath();
                 String userId = event.getSource().getUserId();
                 if (userId != null) {
                     lineMessagingClient.getProfile(userId)
@@ -149,17 +146,7 @@ public class LineBotController {
                                     this.replyText(replyToken, throwable.getMessage());
                                     return;
                                 }
-//                                System.out.println(" #### \n\n ##################### \n check path" + pathConfigFlex);
-//                                RichMenuHelper.createRichMenu(lineMessagingClient, pathConfigFlex, pathImageFlex, userId);
-                                System.out.println("check \n\n\n " + this.getClass().getClassLoader().getResource("richmenu.yml"));
-
-                                try (FileInputStream is = new FileInputStream("richmenu.yml")) {
-
-                                } catch (FileNotFoundException e) {
-                                    e.printStackTrace();
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
+                                RichMenuHelper.createRichMenu(lineMessagingClient, pathConfigFlex, pathImageFlex, userId);
                             });
                 }
                 break;
