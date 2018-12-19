@@ -26,6 +26,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.yaml.snakeyaml.Yaml;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -140,7 +141,15 @@ public class LineBotController {
 //                String pathImageFlex = new ClassPathResource("richmenu/richmenu-flexs.jpg").getFile().getPath();
 //                String pathConfigFlex = new ClassPathResource("richmenu/richmenu-flexs.yml").getFile().getAbsolutePath();
                 String pathImageFlex = getClass().getClassLoader().getResource("richmenu-flexs.jpg").getPath();
-                String pathConfigFlex = getClass().getClassLoader().getResource("richmenu.yml").getFile();
+                String pathConfigFlex = getClass().getClassLoader().getResource("richmenu.yml").getPath();
+
+                Yaml YAML = new Yaml();
+                Object yamlAsObject;
+                try(FileInputStream is = new FileInputStream(pathConfigFlex)) {
+                    yamlAsObject = YAML.load(is);
+                    System.out.println("echeck \n\n\n " +yamlAsObject.toString());
+                }
+
                 String userId = event.getSource().getUserId();
                 if (userId != null) {
                     lineMessagingClient.getProfile(userId)
