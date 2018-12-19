@@ -27,6 +27,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UncheckedIOException;
@@ -138,8 +139,8 @@ public class LineBotController {
                 break;
             }
             case "flex": {
-                String pathImageFlex = new ClassPathResource("/richmenu/richmenu-flexs.jpg").getFile().getAbsolutePath();
-                String pathConfigFlex = new ClassPathResource("/richmenu/richmenu-flexs.yml").getFile().getAbsolutePath();
+                String pathImageFlex = new ClassPathResource("richmenu"+File.separator+"richmenu-flexs.jpg").getFile().getAbsolutePath();
+                String pathConfigFlex = new ClassPathResource("richmenu"+File.separator+"richmenu-flexs.yml").getFile().getAbsolutePath();
                 String userId = event.getSource().getUserId();
                 if (userId != null) {
                     lineMessagingClient.getProfile(userId)
