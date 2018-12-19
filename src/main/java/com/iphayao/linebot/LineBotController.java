@@ -144,12 +144,11 @@ public class LineBotController {
                 String pathConfigFlex = getClass().getClassLoader().getResource("richmenu.yml").toExternalForm();
 
                 InputStream in = this.getClass().getResourceAsStream("richmenu.yml");
-                System.out.println("\n\n\n\n\n\n\n Completed");
+                System.out.println("\n\n\n\n\n\n\n Completed"+in.toString());
 
                 Yaml YAML = new Yaml();
                 Object yamlAsObject;
                 yamlAsObject = YAML.load(in);
-                in.close();
                 System.out.println("\n\n\n\n\n\n\n YAMLYAMLYAMLYAML");
 
                 try(FileInputStream is = new FileInputStream(pathConfigFlex)) {
