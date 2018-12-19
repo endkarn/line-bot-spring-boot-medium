@@ -26,7 +26,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.yaml.snakeyaml.Yaml;
 
@@ -47,8 +46,6 @@ public class LineBotController {
 
     @Autowired
     private LineMessagingClient lineMessagingClient;
-
-    private ResourceLoader resourceLoader;
 
     @EventMapping
     public void handleTextMessage(MessageEvent<TextMessageContent> event) throws IOException {
@@ -145,11 +142,9 @@ public class LineBotController {
 //                String pathImageFlex = new ClassPathResource("richmenu/richmenu-flexs.jpg").getFile().getPath();
 //                String pathConfigFlex = new ClassPathResource("richmenu/richmenu-flexs.yml").getFile().getAbsolutePath();
                 String pathImageFlex = getClass().getClassLoader().getResource("richmenu-flexs.jpg").getPath();
-                String pathConfigFlex = getClass().getClassLoader().getResource("richmenu.yml").toExternalForm();
+                String pathConfigFlex = getClass().getClassLoader().getResource("richmenuuuuuuuuu.yml").toExternalForm();
 
-                Resource resource = resourceLoader.getResource("classpath:richmenu.yml");
-                InputStream dbAsStream = resource.getInputStream();
-                System.out.println("check \n\n\n\n check "+dbAsStream.read());
+
 
                 Yaml YAML = new Yaml();
                 String pathConfigFlex1 = new ClassPathResource("richmenu/richmenu-flexs.yml").getFile().getAbsolutePath();
