@@ -96,12 +96,12 @@ public class LineBotController {
     }
 
     private void handleTextContent(String replyToken, Event event, TextMessageContent content) {
-        String text = content.getText();
+        String text = content.getText().toLowerCase();
 
         log.info("Got text message from %s : %s", replyToken, text);
 
         switch (text) {
-            case "Profile": {
+            case "profile": {
                 String userId = event.getSource().getUserId();
                 if (userId != null) {
                     lineMessagingClient.getProfile(userId)
@@ -119,7 +119,7 @@ public class LineBotController {
                 }
                 break;
             }
-            case "Liff": {
+            case "fiff": {
                 String userId = event.getSource().getUserId();
                 if (userId != null) {
                     lineMessagingClient.getProfile(userId)
@@ -129,6 +129,236 @@ public class LineBotController {
                                     return;
                                 }
                                 this.replyText(replyToken, "line://app/1630213822-5nm9yX07");
+                            });
+                }
+                break;
+            }
+            case "flex": {
+                String userId = event.getSource().getUserId();
+                if (userId != null) {
+                    lineMessagingClient.getProfile(userId)
+                            .whenComplete((profile, throwable) -> {
+                                if (throwable != null) {
+                                    this.replyText(replyToken, throwable.getMessage());
+                                    return;
+                                }
+                                this.replyText(replyToken, " {\n" +
+                                        "            \"type\": \"flex\",\n" +
+                                        "            \"altText\": \"This is a Flex message\",\n" +
+                                        "            \"contents\": {\n" +
+                                        "                \"type\": \"bubble\",\n" +
+                                        "                \"styles\": {\n" +
+                                        "                    \"footer\": {\n" +
+                                        "                        \"separator\": true\n" +
+                                        "                    }\n" +
+                                        "                },\n" +
+                                        "                \"body\": {\n" +
+                                        "                    \"type\": \"box\",\n" +
+                                        "                    \"layout\": \"vertical\",\n" +
+                                        "                    \"contents\": [\n" +
+                                        "                        {\n" +
+                                        "                            \"type\": \"text\",\n" +
+                                        "                            \"text\": \"RECEIPT\",\n" +
+                                        "                            \"weight\": \"bold\",\n" +
+                                        "                            \"color\": \"#1DB446\",\n" +
+                                        "                            \"size\": \"sm\"\n" +
+                                        "                        },\n" +
+                                        "                        {\n" +
+                                        "                            \"type\": \"text\",\n" +
+                                        "                            \"text\": \"Brown Store\",\n" +
+                                        "                            \"weight\": \"bold\",\n" +
+                                        "                            \"size\": \"xxl\",\n" +
+                                        "                            \"margin\": \"md\"\n" +
+                                        "                        },\n" +
+                                        "                        {\n" +
+                                        "                            \"type\": \"text\",\n" +
+                                        "                            \"text\": \"Miraina Tower, 4-1-6 Shinjuku, Tokyo\",\n" +
+                                        "                            \"size\": \"xs\",\n" +
+                                        "                            \"color\": \"#aaaaaa\",\n" +
+                                        "                            \"wrap\": true\n" +
+                                        "                        },\n" +
+                                        "                        {\n" +
+                                        "                            \"type\": \"separator\",\n" +
+                                        "                            \"margin\": \"xxl\"\n" +
+                                        "                        },\n" +
+                                        "                        {\n" +
+                                        "                            \"type\": \"box\",\n" +
+                                        "                            \"layout\": \"vertical\",\n" +
+                                        "                            \"margin\": \"xxl\",\n" +
+                                        "                            \"spacing\": \"sm\",\n" +
+                                        "                            \"contents\": [\n" +
+                                        "                                {\n" +
+                                        "                                    \"type\": \"box\",\n" +
+                                        "                                    \"layout\": \"horizontal\",\n" +
+                                        "                                    \"contents\": [\n" +
+                                        "                                        {\n" +
+                                        "                                            \"type\": \"text\",\n" +
+                                        "                                            \"text\": \"Energy Drink\",\n" +
+                                        "                                            \"size\": \"sm\",\n" +
+                                        "                                            \"color\": \"#555555\",\n" +
+                                        "                                            \"flex\": 0\n" +
+                                        "                                        },\n" +
+                                        "                                        {\n" +
+                                        "                                            \"type\": \"text\",\n" +
+                                        "                                            \"text\": \"$2.99\",\n" +
+                                        "                                            \"size\": \"sm\",\n" +
+                                        "                                            \"color\": \"#111111\",\n" +
+                                        "                                            \"align\": \"end\"\n" +
+                                        "                                        }\n" +
+                                        "                                    ]\n" +
+                                        "                                },\n" +
+                                        "                                {\n" +
+                                        "                                    \"type\": \"box\",\n" +
+                                        "                                    \"layout\": \"horizontal\",\n" +
+                                        "                                    \"contents\": [\n" +
+                                        "                                        {\n" +
+                                        "                                            \"type\": \"text\",\n" +
+                                        "                                            \"text\": \"Chewing Gum\",\n" +
+                                        "                                            \"size\": \"sm\",\n" +
+                                        "                                            \"color\": \"#555555\",\n" +
+                                        "                                            \"flex\": 0\n" +
+                                        "                                        },\n" +
+                                        "                                        {\n" +
+                                        "                                            \"type\": \"text\",\n" +
+                                        "                                            \"text\": \"$0.99\",\n" +
+                                        "                                            \"size\": \"sm\",\n" +
+                                        "                                            \"color\": \"#111111\",\n" +
+                                        "                                            \"align\": \"end\"\n" +
+                                        "                                        }\n" +
+                                        "                                    ]\n" +
+                                        "                                },\n" +
+                                        "                                {\n" +
+                                        "                                    \"type\": \"box\",\n" +
+                                        "                                    \"layout\": \"horizontal\",\n" +
+                                        "                                    \"contents\": [\n" +
+                                        "                                        {\n" +
+                                        "                                            \"type\": \"text\",\n" +
+                                        "                                            \"text\": \"Bottled Water\",\n" +
+                                        "                                            \"size\": \"sm\",\n" +
+                                        "                                            \"color\": \"#555555\",\n" +
+                                        "                                            \"flex\": 0\n" +
+                                        "                                        },\n" +
+                                        "                                        {\n" +
+                                        "                                            \"type\": \"text\",\n" +
+                                        "                                            \"text\": \"$3.33\",\n" +
+                                        "                                            \"size\": \"sm\",\n" +
+                                        "                                            \"color\": \"#111111\",\n" +
+                                        "                                            \"align\": \"end\"\n" +
+                                        "                                        }\n" +
+                                        "                                    ]\n" +
+                                        "                                },\n" +
+                                        "                                {\n" +
+                                        "                                    \"type\": \"separator\",\n" +
+                                        "                                    \"margin\": \"xxl\"\n" +
+                                        "                                },\n" +
+                                        "                                {\n" +
+                                        "                                    \"type\": \"box\",\n" +
+                                        "                                    \"layout\": \"horizontal\",\n" +
+                                        "                                    \"margin\": \"xxl\",\n" +
+                                        "                                    \"contents\": [\n" +
+                                        "                                        {\n" +
+                                        "                                            \"type\": \"text\",\n" +
+                                        "                                            \"text\": \"ITEMS\",\n" +
+                                        "                                            \"size\": \"sm\",\n" +
+                                        "                                            \"color\": \"#555555\"\n" +
+                                        "                                        },\n" +
+                                        "                                        {\n" +
+                                        "                                            \"type\": \"text\",\n" +
+                                        "                                            \"text\": \"3\",\n" +
+                                        "                                            \"size\": \"sm\",\n" +
+                                        "                                            \"color\": \"#111111\",\n" +
+                                        "                                            \"align\": \"end\"\n" +
+                                        "                                        }\n" +
+                                        "                                    ]\n" +
+                                        "                                },\n" +
+                                        "                                {\n" +
+                                        "                                    \"type\": \"box\",\n" +
+                                        "                                    \"layout\": \"horizontal\",\n" +
+                                        "                                    \"contents\": [\n" +
+                                        "                                        {\n" +
+                                        "                                            \"type\": \"text\",\n" +
+                                        "                                            \"text\": \"TOTAL\",\n" +
+                                        "                                            \"size\": \"sm\",\n" +
+                                        "                                            \"color\": \"#555555\"\n" +
+                                        "                                        },\n" +
+                                        "                                        {\n" +
+                                        "                                            \"type\": \"text\",\n" +
+                                        "                                            \"text\": \"$7.31\",\n" +
+                                        "                                            \"size\": \"sm\",\n" +
+                                        "                                            \"color\": \"#111111\",\n" +
+                                        "                                            \"align\": \"end\"\n" +
+                                        "                                        }\n" +
+                                        "                                    ]\n" +
+                                        "                                },\n" +
+                                        "                                {\n" +
+                                        "                                    \"type\": \"box\",\n" +
+                                        "                                    \"layout\": \"horizontal\",\n" +
+                                        "                                    \"contents\": [\n" +
+                                        "                                        {\n" +
+                                        "                                            \"type\": \"text\",\n" +
+                                        "                                            \"text\": \"CASH\",\n" +
+                                        "                                            \"size\": \"sm\",\n" +
+                                        "                                            \"color\": \"#555555\"\n" +
+                                        "                                        },\n" +
+                                        "                                        {\n" +
+                                        "                                            \"type\": \"text\",\n" +
+                                        "                                            \"text\": \"$8.0\",\n" +
+                                        "                                            \"size\": \"sm\",\n" +
+                                        "                                            \"color\": \"#111111\",\n" +
+                                        "                                            \"align\": \"end\"\n" +
+                                        "                                        }\n" +
+                                        "                                    ]\n" +
+                                        "                                },\n" +
+                                        "                                {\n" +
+                                        "                                    \"type\": \"box\",\n" +
+                                        "                                    \"layout\": \"horizontal\",\n" +
+                                        "                                    \"contents\": [\n" +
+                                        "                                        {\n" +
+                                        "                                            \"type\": \"text\",\n" +
+                                        "                                            \"text\": \"CHANGE\",\n" +
+                                        "                                            \"size\": \"sm\",\n" +
+                                        "                                            \"color\": \"#555555\"\n" +
+                                        "                                        },\n" +
+                                        "                                        {\n" +
+                                        "                                            \"type\": \"text\",\n" +
+                                        "                                            \"text\": \"$0.69\",\n" +
+                                        "                                            \"size\": \"sm\",\n" +
+                                        "                                            \"color\": \"#111111\",\n" +
+                                        "                                            \"align\": \"end\"\n" +
+                                        "                                        }\n" +
+                                        "                                    ]\n" +
+                                        "                                }\n" +
+                                        "                            ]\n" +
+                                        "                        },\n" +
+                                        "                        {\n" +
+                                        "                            \"type\": \"separator\",\n" +
+                                        "                            \"margin\": \"xxl\"\n" +
+                                        "                        },\n" +
+                                        "                        {\n" +
+                                        "                            \"type\": \"box\",\n" +
+                                        "                            \"layout\": \"horizontal\",\n" +
+                                        "                            \"margin\": \"md\",\n" +
+                                        "                            \"contents\": [\n" +
+                                        "                                {\n" +
+                                        "                                    \"type\": \"text\",\n" +
+                                        "                                    \"text\": \"PAYMENT ID\",\n" +
+                                        "                                    \"size\": \"xs\",\n" +
+                                        "                                    \"color\": \"#aaaaaa\",\n" +
+                                        "                                    \"flex\": 0\n" +
+                                        "                                },\n" +
+                                        "                                {\n" +
+                                        "                                    \"type\": \"text\",\n" +
+                                        "                                    \"text\": \"#743289384279\",\n" +
+                                        "                                    \"color\": \"#aaaaaa\",\n" +
+                                        "                                    \"size\": \"xs\",\n" +
+                                        "                                    \"align\": \"end\"\n" +
+                                        "                                }\n" +
+                                        "                            ]\n" +
+                                        "                        }\n" +
+                                        "                    ]\n" +
+                                        "                }\n" +
+                                        "            }\n" +
+                                        "        }");
                             });
                 }
                 break;
