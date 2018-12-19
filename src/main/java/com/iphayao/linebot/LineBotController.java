@@ -143,6 +143,9 @@ public class LineBotController {
                 String pathImageFlex = getClass().getClassLoader().getResource("richmenu-flexs.jpg").getPath();
                 String pathConfigFlex = getClass().getClassLoader().getResource("richmenu.yml").toExternalForm();
 
+                InputStream in = this.getClass().getResourceAsStream("richmenu.yml");
+                System.out.println("\n\n\n\n\n\n\n Completed");
+
                 Yaml YAML = new Yaml();
                 Object yamlAsObject;
                 try(FileInputStream is = new FileInputStream(pathConfigFlex)) {
