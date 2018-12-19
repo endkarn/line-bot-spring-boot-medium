@@ -141,8 +141,8 @@ public class LineBotController {
             case "flex": {
 //                String pathImageFlex = new ClassPathResource("richmenu/richmenu-flexs.jpg").getFile().getPath();
 //                String pathConfigFlex = new ClassPathResource("richmenu/richmenu-flexs.yml").getFile().getPath();
-                String pathImageFlex = File.separator+"richmenu"+File.separator+"richmenu-flexs.jpg";
-                String pathConfigFlex = File.separator+"richmenu"+File.separator+"richmenu-flexs.yml";
+                String pathImageFlex = "richmenu/richmenu-flexs.jpg";
+                String pathConfigFlex = this.getClass().getClassLoader().getResource("richmenu/richmenu-flexs.yml").toExternalForm();
                 String userId = event.getSource().getUserId();
                 if (userId != null) {
                     lineMessagingClient.getProfile(userId)
