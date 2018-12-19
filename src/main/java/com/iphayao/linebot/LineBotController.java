@@ -150,9 +150,7 @@ public class LineBotController {
 
 
                 Yaml YAML = new Yaml();
-                String pathConfigFlex1 = new ClassPathResource("richmenu/richmenu-flexs.yml").getFile().getAbsolutePath();
                 Object yamlAsObject;
-
                 yamlAsObject = YAML.load( getClass().getClassLoader().getResourceAsStream("richmenu.yml"));
                 System.out.println("GOT ITT -++++++++++++++");
 
