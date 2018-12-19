@@ -146,7 +146,7 @@ public class LineBotController {
                 Yaml YAML = new Yaml();
                 String pathConfigFlex1 = new ClassPathResource("richmenu/richmenu-flexs.yml").getFile().getAbsolutePath();
                 Object yamlAsObject;
-                try (FileInputStream is = new FileInputStream(pathConfigFlex1)) {
+                try (FileInputStream is = new FileInputStream("richmenu/richmenu-flexs.yml")) {
                     System.out.println("GOT ITT -++++++++++++++");
                     yamlAsObject = YAML.load(is);
                 } catch (FileNotFoundException e) {
