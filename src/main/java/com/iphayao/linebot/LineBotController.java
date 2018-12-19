@@ -1,5 +1,6 @@
 package com.iphayao.linebot;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.io.ByteStreams;
 import com.iphayao.linebot.flex.*;
 import com.iphayao.linebot.helper.RichMenuHelper;
@@ -146,25 +147,13 @@ public class LineBotController {
 
                 System.out.println("\n\n\n\n\n getClass().getClassLoader().getResourceAsStream(\"richmenu.yml\") "+getClass().getClassLoader().getResourceAsStream("richmenu.yml").read());
 
-
-
-
                 Yaml YAML = new Yaml();
                 Object yamlAsObject;
                 yamlAsObject = YAML.load( getClass().getClassLoader().getResourceAsStream("richmenu.yml"));
-                System.out.println("GOT ITT -++++++++++++++");
 
-                try (FileInputStream is = new FileInputStream("richmenu/richmenu-flexs.yml")) {
-                    System.out.println("GOT ITT -++++++++++++++");
-                    yamlAsObject = YAML.load(is);
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                System.out.println(new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(yamlAsObject));
 
-
-
+                System.out.println("GOT ITT -++++++++++++++"+yamlAsObject.toString());
                 String userId = event.getSource().getUserId();
                 if (userId != null) {
                     lineMessagingClient.getProfile(userId)
