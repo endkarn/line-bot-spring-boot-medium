@@ -45,7 +45,6 @@ import java.util.concurrent.ExecutionException;
 @Slf4j
 @LineMessageHandler
 public class LineBotController {
-    private static final Logger log = LoggerFactory.getLogger(LineBotController.class);
 
     @Autowired
     private LineMessagingClient lineMessagingClient;

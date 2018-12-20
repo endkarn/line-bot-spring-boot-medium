@@ -11,8 +11,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class LineBotConfigure implements WebMvcConfigurer {
 
-    private static final Logger log = LoggerFactory.getLogger(LineBotConfigure.class);
-
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         String downloadedContentUri = Application.downloadedContentDir.toUri().toASCIIString();
