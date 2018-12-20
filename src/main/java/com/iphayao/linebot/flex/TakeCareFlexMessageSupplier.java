@@ -24,7 +24,7 @@ public class TakeCareFlexMessageSupplier implements Supplier<FlexMessage> {
                 .size(Image.ImageSize.FULL_WIDTH)
                 .aspectRatio(Image.ImageAspectRatio.R20TO13)
                 .aspectMode(Image.ImageAspectMode.Cover)
-                .action(new PostbackAction("go to takecare website","https://takecarebeauty.com/"))
+                .action(new PostbackAction("website","test simple postback"))
                 .build();
 
         Separator separator = Separator.builder().build();
@@ -141,7 +141,7 @@ public class TakeCareFlexMessageSupplier implements Supplier<FlexMessage> {
         final Button websiteAction = Button.builder()
                 .style(Button.ButtonStyle.LINK)
                 .height(Button.ButtonHeight.SMALL)
-                .action(new URIAction("WEBSITE", "https://example.com"))
+                .action(new URIAction("WEBSITE", "https://takecarebeauty.com/"))
                 .build();
 
         return Box.builder()
