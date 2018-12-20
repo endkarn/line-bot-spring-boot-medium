@@ -209,6 +209,9 @@ public class LineBotController {
                 this.reply(replyToken, new CatalogueFlexMessageSupplier().get());
                 break;
             }
+            case "quickreply":
+                this.reply(replyToken, new MessageWithQuickReplySupplier().get());
+                break;
             default:
                 log.info("Return echo message %s : %s", replyToken, text);
                 this.replyText(replyToken, text);
