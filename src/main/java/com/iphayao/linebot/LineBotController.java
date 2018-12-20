@@ -164,7 +164,7 @@ public class LineBotController {
                                     this.replyText(replyToken, throwable.getMessage());
                                     return;
                                 }
-                                RichMenuHelper.createRichMenu(lineMessagingClient, yamlAsObject, pathImageFlex, userId);
+                                RichMenuHelper.createRichMenu(lineMessagingClient, pathConfigFlex, pathImageFlex, userId);
                             });
                 }
                 break;
