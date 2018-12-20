@@ -6,6 +6,7 @@ import com.iphayao.linebot.helper.RichMenuHelper;
 import com.linecorp.bot.client.LineMessagingClient;
 import com.linecorp.bot.client.LineMessagingClientImpl;
 import com.linecorp.bot.model.PushMessage;
+import com.linecorp.bot.model.message.LocationMessage;
 import com.linecorp.bot.model.response.BotApiResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
 
 public class TestJavaApp {
 
@@ -49,7 +51,8 @@ public class TestJavaApp {
                 .build();
         final PushMessage pushMessage = new PushMessage(
                 "U79c1a767e9d7db6466d826af886103dd",
-                new TakeCareFlexMessageSupplier().get());
+                Arrays.asList(new TakeCareFlexMessageSupplier().get(),
+                        new LocationMessage("Take Care Salon of Beauty","19 31 ซอย สุขุมวิท 19 แขวง คลองเตยเหนือ เขต วัฒนา กรุงเทพมหานคร 10110",13.7380889,100.5602276)));
         BotApiResponse botApiResponse = client.pushMessage(pushMessage).get();
         System.out.println(botApiResponse);
     }

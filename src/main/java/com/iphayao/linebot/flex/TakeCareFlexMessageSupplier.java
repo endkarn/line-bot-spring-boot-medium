@@ -1,5 +1,6 @@
 package com.iphayao.linebot.flex;
 
+import com.linecorp.bot.model.action.PostbackAction;
 import com.linecorp.bot.model.action.URIAction;
 import com.linecorp.bot.model.message.FlexMessage;
 import com.linecorp.bot.model.message.LocationMessage;
@@ -23,7 +24,7 @@ public class TakeCareFlexMessageSupplier implements Supplier<FlexMessage> {
                 .size(Image.ImageSize.FULL_WIDTH)
                 .aspectRatio(Image.ImageAspectRatio.R20TO13)
                 .aspectMode(Image.ImageAspectMode.Cover)
-                .action(new URIAction("label", "http://takecarebeauty.com/"))
+                .action(new PostbackAction("go to takecare website","https://takecarebeauty.com/"))
                 .build();
 
         Separator separator = Separator.builder().build();

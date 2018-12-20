@@ -9,6 +9,7 @@ import com.linecorp.bot.client.MessageContentResponse;
 import com.linecorp.bot.model.ReplyMessage;
 import com.linecorp.bot.model.event.Event;
 import com.linecorp.bot.model.event.MessageEvent;
+import com.linecorp.bot.model.event.PostbackEvent;
 import com.linecorp.bot.model.event.message.ImageMessageContent;
 import com.linecorp.bot.model.event.message.LocationMessageContent;
 import com.linecorp.bot.model.event.message.StickerMessageContent;
@@ -100,6 +101,15 @@ public class LineBotController {
         }
 
     }
+
+    @EventMapping
+    public void handlePostbackEvent(PostbackEvent event) {
+        String replyToken = event.getReplyToken();
+        this.replyText(replyToken,
+                "Got postback data " + event.getPostbackContent().getData() + ", param " + event
+                        .getPostbackContent().getParams().toString());
+    }
+
 
     private void handleTextContent(String replyToken, Event event, TextMessageContent content) throws IOException {
         String text = content.getText().toLowerCase();
@@ -211,6 +221,8 @@ public class LineBotController {
             case "quickreply":
                 this.reply(replyToken, new MessageWithQuickReplySupplier().get());
                 break;
+            case"takecare":
+                this.reply(replyToken,new TakeCareFlexMessageSupplier().get());
             default:
                 log.info("Return echo message %s : %s", replyToken, text);
                 this.replyText(replyToken, text);
