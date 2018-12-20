@@ -61,6 +61,7 @@ public class RichMenuHelper {
                                          Object yamlAsObject) throws IOException {
         //TODO
         RichMenu richMenu = loadYaml(yamlAsObject);
+        System.out.println("Static Method ############## \n\n\n\n\n\n\n");
         System.out.println(new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(richMenu));
 
         RichMenuIdResponse richMenuResponse = getUnchecked(client.createRichMenu(richMenu));
