@@ -151,9 +151,9 @@ public class LineBotController {
                 Yaml YAML = new Yaml();
                 Object yamlAsObject;
                 yamlAsObject = YAML.load( getClass().getClassLoader().getResourceAsStream("richmenu/richmenu-flexs.yml"));
-                RichMenu richMenu = new ObjectMapper().convertValue(yamlAsObject,RichMenu.class);
+//                RichMenu richMenu = new ObjectMapper().convertValue(yamlAsObject,RichMenu.class);
 
-                System.out.println(new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(richMenu));
+
 
                 System.out.println("GOT ITT -++++++++++++++"+yamlAsObject.toString());
                 String userId = event.getSource().getUserId();
@@ -164,7 +164,7 @@ public class LineBotController {
                                     this.replyText(replyToken, throwable.getMessage());
                                     return;
                                 }
-                                RichMenuHelper.createRichMenu(lineMessagingClient, pathConfigFlex, pathImageFlex, userId);
+                                RichMenuHelper.createRichMenu(lineMessagingClient, yamlAsObject, pathImageFlex, userId);
                             });
                 }
                 break;

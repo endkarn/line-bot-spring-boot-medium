@@ -58,9 +58,10 @@ public class RichMenuHelper {
     }
 
     private static String createRichMenu(LineMessagingClient client,
-                                         String path) throws IOException {
+                                         Object yamlAsObject) throws IOException {
         //TODO
-        RichMenu richMenu = loadYaml(path);
+        RichMenu richMenu = loadYaml(yamlAsObject);
+        System.out.println(new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(richMenu));
 
         RichMenuIdResponse richMenuResponse = getUnchecked(client.createRichMenu(richMenu));
         log.info("Successfully finished");
@@ -99,7 +100,7 @@ public class RichMenuHelper {
         log.info("{}", botApiResponse);
     }
 
-    private static RichMenu loadYaml(String path) throws IOException {
+    private static RichMenu loadYaml(Object yamlAsObject) throws IOException {
         final Yaml YAML = new Yaml();
         final ObjectMapper OBJECT_MAPPER = ModelObjectMapper
                 .createNewObjectMapper()
@@ -109,11 +110,6 @@ public class RichMenuHelper {
                 .configure(ACCEPT_SINGLE_VALUE_AS_ARRAY, true)
                 .configure(FAIL_ON_UNKNOWN_PROPERTIES, true)
                 .configure(INDENT_OUTPUT, true);
-
-        Object yamlAsObject;
-        try(FileInputStream is = new FileInputStream(path)) {
-            yamlAsObject = YAML.load(is);
-        }
 
         return OBJECT_MAPPER.convertValue(yamlAsObject, RichMenu.class);
     }
