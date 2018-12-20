@@ -141,7 +141,9 @@ public class TakeCareFlexMessageSupplier implements Supplier<FlexMessage> {
         final Button websiteAction = Button.builder()
                 .style(Button.ButtonStyle.LINK)
                 .height(Button.ButtonHeight.SMALL)
-                .action(new URIAction("WEBSITE", "https://takecarebeauty.com/"))
+                .action(new PostbackAction("言 hello2",
+                        "hello こんにちは",
+                        "hello こんにちは"))
                 .build();
 
         return Box.builder()
