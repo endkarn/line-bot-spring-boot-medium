@@ -29,9 +29,10 @@ public class RichMenuHelper {
     @Autowired
     private LineMessagingClient lineMessagingClient;
 
-    public static boolean createRichMenu(LineMessagingClient client, String pathYaml, String pathImage, String userId) {
+    public static boolean createRichMenu(LineMessagingClient client, Object yamlAsObject, String pathImage, String userId) {
         try {
-            String richMenuId = createRichMenu(client, pathYaml);
+            String richMenuId = createRichMenu(client, yamlAsObject);
+            System.out.println("\n\n\n\n\n\n check richMenuId = " +richMenuId);
             imageUploadRichMenu(client, richMenuId, pathImage);
             linkToUser(client, richMenuId, userId);
 
