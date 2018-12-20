@@ -34,6 +34,7 @@ import org.yaml.snakeyaml.Yaml;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Collections;
@@ -140,19 +141,21 @@ public class LineBotController {
                 break;
             }
             case "flex": {
-                System.out.println("\n\n\n check "+getClass().getClassLoader().getResource("richmenu.yml").getPath());
+                System.out.println("\n\n\n check " + getClass().getClassLoader().getResource("richmenu.yml").getPath());
 //                String pathImageFlex = new ClassPathResource("richmenu/richmenu-flexs.jpg").getFile().getPath();
 //                String pathConfigFlex = new ClassPathResource("richmenu/richmenu-flexs.yml").getFile().getAbsolutePath();
                 String pathImageFlex = getClass().getClassLoader().getResource("richmenu-flexs.jpg").getPath();
                 String pathConfigFlex = getClass().getClassLoader().getResource("richmenu.yml").getPath();
 
-                System.out.println("\n\n\n\n\n getClass().getClassLoader().getResourceAsStream(\"richmenu.yml\") "+getClass().getClassLoader().getResourceAsStream("richmenu.yml").read());
+                System.out.println("\n\n\n\n\n getClass().getClassLoader().getResourceAsStream(\"richmenu.yml\") " + getClass().getClassLoader().getResourceAsStream("richmenu.yml").read());
 
                 Yaml YAML = new Yaml();
-                Object yamlAsObject;
-                yamlAsObject = YAML.load( getClass().getClassLoader().getResourceAsStream("richmenu/richmenu-flexs.yml"));
+                Object yamlConfigAsObject;
+                yamlConfigAsObject = YAML.load(getClass().getClassLoader().getResourceAsStream("richmenu/richmenu-flexs.yml"));
 //                RichMenu richMenu = new ObjectMapper().convertValue(yamlAsObject,RichMenu.class);
 //                System.out.println("GOT ITT -++++++++++++++"+yamlAsObject.toString());
+
+                byte[] bytesOfImageFlex = ByteStreams.toByteArray(getClass().getClassLoader().getResourceAsStream("richmenu-flexs.jpg"));
 
                 String userId = event.getSource().getUserId();
                 if (userId != null) {
@@ -162,7 +165,7 @@ public class LineBotController {
                                     this.replyText(replyToken, throwable.getMessage());
                                     return;
                                 }
-                                RichMenuHelper.createRichMenu(lineMessagingClient, yamlAsObject, pathImageFlex, userId);
+                                RichMenuHelper.createRichMenu(lineMessagingClient, yamlConfigAsObject, pathImageFlex, userId, bytesOfImageFlex);
                             });
                 }
                 break;

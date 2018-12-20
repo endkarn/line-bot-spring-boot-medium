@@ -29,11 +29,11 @@ public class RichMenuHelper {
     @Autowired
     private LineMessagingClient lineMessagingClient;
 
-    public static boolean createRichMenu(LineMessagingClient client, Object yamlAsObject, String pathImage, String userId) {
+    public static boolean createRichMenu(LineMessagingClient client, Object yamlAsObject, String pathImage, String userId, byte[] imageBytes) {
         try {
             String richMenuId = createRichMenu(client, yamlAsObject);
             System.out.println("\n\n\n\n\n\n check richMenuId = " +richMenuId);
-            imageUploadRichMenu(client, richMenuId, pathImage);
+            imageUploadRichMenu(client, richMenuId, pathImage,imageBytes);
             linkToUser(client, richMenuId, userId);
 
         } catch (IOException e) {
@@ -73,13 +73,13 @@ public class RichMenuHelper {
     }
 
     private static void imageUploadRichMenu(LineMessagingClient client,
-                                            String richMenuId, String path) throws IOException {
-        String contentType = getDefaultFileTypeMap().getContentType(path);
-        log.info("Content-type: {}", contentType);
+                                            String richMenuId, String path, byte[] imageBytes) throws IOException {
+//        String contentType = getDefaultFileTypeMap().getContentType(path);
+//        log.info("Content-type: {}", contentType);
 
-        byte[] bytes = Files.readAllBytes(Paths.get(path));
+//        byte[] bytes = Files.readAllBytes(Paths.get(path));
 
-        BotApiResponse botApiResponse = getUnchecked(client.setRichMenuImage(richMenuId, contentType, bytes));
+        BotApiResponse botApiResponse = getUnchecked(client.setRichMenuImage(richMenuId, "image/jpeg", imageBytes));
         log.info("Successfully finished");
         log.info("{}", botApiResponse);
     }
