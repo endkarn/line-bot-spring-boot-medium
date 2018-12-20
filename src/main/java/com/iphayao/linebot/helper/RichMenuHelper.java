@@ -59,6 +59,7 @@ public class RichMenuHelper {
 
     private static String createRichMenu(LineMessagingClient client,
                                          String path) throws IOException {
+        //TODO
         RichMenu richMenu = loadYaml(path);
 
         RichMenuIdResponse richMenuResponse = getUnchecked(client.createRichMenu(richMenu));

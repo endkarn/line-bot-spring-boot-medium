@@ -16,6 +16,7 @@ import com.linecorp.bot.model.event.message.TextMessageContent;
 import com.linecorp.bot.model.message.*;
 import com.linecorp.bot.model.message.flex.container.FlexContainer;
 import com.linecorp.bot.model.response.BotApiResponse;
+import com.linecorp.bot.model.richmenu.RichMenu;
 import com.linecorp.bot.spring.boot.annotation.EventMapping;
 import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
 
@@ -143,15 +144,16 @@ public class LineBotController {
 //                String pathImageFlex = new ClassPathResource("richmenu/richmenu-flexs.jpg").getFile().getPath();
 //                String pathConfigFlex = new ClassPathResource("richmenu/richmenu-flexs.yml").getFile().getAbsolutePath();
                 String pathImageFlex = getClass().getClassLoader().getResource("richmenu-flexs.jpg").getPath();
-                String pathConfigFlex = getClass().getClassLoader().getResource("richmenu.yml").toExternalForm();
+                String pathConfigFlex = getClass().getClassLoader().getResource("richmenu.yml").getPath();
 
                 System.out.println("\n\n\n\n\n getClass().getClassLoader().getResourceAsStream(\"richmenu.yml\") "+getClass().getClassLoader().getResourceAsStream("richmenu.yml").read());
 
                 Yaml YAML = new Yaml();
                 Object yamlAsObject;
                 yamlAsObject = YAML.load( getClass().getClassLoader().getResourceAsStream("richmenu/richmenu-flexs.yml"));
+                RichMenu richMenu = new ObjectMapper().convertValue(yamlAsObject,RichMenu.class);
 
-                System.out.println(new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(yamlAsObject));
+                System.out.println(new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(richMenu));
 
                 System.out.println("GOT ITT -++++++++++++++"+yamlAsObject.toString());
                 String userId = event.getSource().getUserId();
