@@ -222,7 +222,9 @@ public class LineBotController {
                 this.reply(replyToken, new MessageWithQuickReplySupplier().get());
                 break;
             case"takecare":
-                this.reply(replyToken,new TakeCareFlexMessageSupplier().get());
+                this.reply(replyToken,Arrays.asList(new TakeCareFlexMessageSupplier().get(),
+                        new LocationMessage("Take Care Salon of Beauty","19 31 ซอย สุขุมวิท 19 แขวง คลองเตยเหนือ เขต วัฒนา กรุงเทพมหานคร 10110",13.7380889,100.5602276)));
+                break;
             default:
                 log.info("Return echo message %s : %s", replyToken, text);
                 this.replyText(replyToken, text);

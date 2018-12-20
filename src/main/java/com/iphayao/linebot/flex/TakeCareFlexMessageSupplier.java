@@ -24,7 +24,7 @@ public class TakeCareFlexMessageSupplier implements Supplier<FlexMessage> {
                 .size(Image.ImageSize.FULL_WIDTH)
                 .aspectRatio(Image.ImageAspectRatio.R20TO13)
                 .aspectMode(Image.ImageAspectMode.Cover)
-                .action(PostbackAction.builder().label("simeple postback").text("check postback").data("{PostbackAction=true}").build())
+                .action(PostbackAction.builder().label("simeple     postback").text("check postback").data("{PostbackAction=true}").build())
                 .build();
 
         Separator separator = Separator.builder().build();
