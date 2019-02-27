@@ -28,7 +28,11 @@ public class MonitorFlexMessageSupplier implements Supplier<FlexMessage> {
                 .weight(Text.TextWeight.BOLD)
                 .size(FlexFontSize.XL)
                 .build();
-        Box bodyBlock = createInfoBox();
+        Box bodyBlockDetail = createInfoBox();
+        Box bodyBlock = Box.builder()
+                .layout(FlexLayout.VERTICAL)
+                .contents(asList(bodyBlockTextTitle,bodyBlockDetail))
+                .build();
         Box footerBlock = createFooterBlock();
 
         Bubble bubbleContainer = Bubble.builder()
