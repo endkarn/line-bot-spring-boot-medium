@@ -33,6 +33,6 @@ public class LinePushMessageService {
         }
 
         System.out.println(botApiResponse);
-        log.info("Service is Online now !!");
+        log.info("Service is Online now !! EIEI");
     }
 }
