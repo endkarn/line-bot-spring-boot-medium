@@ -1,6 +1,5 @@
 package com.iphayao.linebot;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.io.ByteStreams;
 import com.iphayao.linebot.flex.*;
 import com.iphayao.linebot.helper.RichMenuHelper;
@@ -15,27 +14,21 @@ import com.linecorp.bot.model.event.message.LocationMessageContent;
 import com.linecorp.bot.model.event.message.StickerMessageContent;
 import com.linecorp.bot.model.event.message.TextMessageContent;
 import com.linecorp.bot.model.message.*;
-import com.linecorp.bot.model.message.flex.container.FlexContainer;
 import com.linecorp.bot.model.response.BotApiResponse;
-import com.linecorp.bot.model.richmenu.RichMenu;
 import com.linecorp.bot.spring.boot.annotation.EventMapping;
 import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
-
 import lombok.NonNull;
 import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.yaml.snakeyaml.Yaml;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Collections;
@@ -105,7 +98,7 @@ public class LineBotController {
     @EventMapping
     public void handlePostbackEvent(PostbackEvent event) {
         String replyToken = event.getReplyToken();
-        this.replyText(replyToken,"GET SOME POSTBACk");
+        this.replyText(replyToken, "GET SOME POSTBACk");
 //        this.replyText(replyToken,
 //                "Got postback data " + event.getPostbackContent().getData() + ", param " + event
 //                        .getPostbackContent().getParams().toString());
@@ -219,13 +212,19 @@ public class LineBotController {
                 this.reply(replyToken, new CatalogueFlexMessageSupplier().get());
                 break;
             }
-            case "quickreply":
+            case "quickreply": {
                 this.reply(replyToken, new MessageWithQuickReplySupplier().get());
                 break;
-            case"takecare":
-                this.reply(replyToken,Arrays.asList(new TakeCareFlexMessageSupplier().get(),
-                        new LocationMessage("Take Care Salon of Beauty","19 31 ซอย สุขุมวิท 19 แขวง คลองเตยเหนือ เขต วัฒนา กรุงเทพมหานคร 10110",13.7380889,100.5602276)));
+            }
+            case "takecare": {
+                this.reply(replyToken, Arrays.asList(new TakeCareFlexMessageSupplier().get(),
+                        new LocationMessage("Take Care Salon of Beauty", "19 31 ซอย สุขุมวิท 19 แขวง คลองเตยเหนือ เขต วัฒนา กรุงเทพมหานคร 10110", 13.7380889, 100.5602276)));
                 break;
+            }
+            case "monitor": {
+                this.reply(replyToken, new MonitorFlexMessageSupplier().get());
+                break;
+            }
             default:
                 log.info("Return echo message %s : %s", replyToken, text);
                 this.replyText(replyToken, text);

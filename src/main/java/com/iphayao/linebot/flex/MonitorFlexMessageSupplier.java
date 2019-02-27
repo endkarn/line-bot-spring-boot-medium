@@ -1,6 +1,6 @@
 package com.iphayao.linebot.flex;
 
-import com.linecorp.bot.model.action.PostbackAction;
+import com.linecorp.bot.model.action.URIAction;
 import com.linecorp.bot.model.message.FlexMessage;
 import com.linecorp.bot.model.message.flex.component.*;
 import com.linecorp.bot.model.message.flex.container.Bubble;
@@ -12,36 +12,23 @@ import java.util.function.Supplier;
 
 import static java.util.Arrays.asList;
 
-public class TakeCareFlexMessageSupplier implements Supplier<FlexMessage> {
+public class MonitorFlexMessageSupplier implements Supplier<FlexMessage> {
 
     @Override
     public FlexMessage get() {
         Image heroBlock = Image.builder()
-                .url("https://takecarebeauty.com/assets/images/branch/s_19.jpg")
+                .url("https://assetsds.cdnedge.bluemix.net/sites/default/files/styles/big_2/public/feature/images/potato_pc.jpg")
                 .size(Image.ImageSize.FULL_WIDTH)
                 .aspectRatio(Image.ImageAspectRatio.R20TO13)
                 .aspectMode(Image.ImageAspectMode.Cover)
-                .action(PostbackAction.builder().label("simeple     postback").text("check postback").data("click hero postback").build())
                 .build();
-
         Separator separator = Separator.builder().build();
-
         Text bodyBlockTextTitle = Text.builder()
-                .text("Take Care Beauty")
+                .text("Monitor VPS")
                 .weight(Text.TextWeight.BOLD)
                 .size(FlexFontSize.XL)
                 .build();
-        Box bodyBlockInfo = createInfoBox();
-        Text bodyBlockTextDetail = Text.builder()
-                .text("Take Care is dedicated to the pursuit of offering extraordinary experience with exceptional service. We believe that creating a beautiful appearance is the quintessential standard for every salon's philosophy, to this point, our mission is not only that, but inclusively to strive and commit to the higher level of all beauty aspects than that - to develop optimistically confidence and happiness in self, which leads to the ultimate goal in building up the third area in life to be exquisitely confident.")
-                .wrap(true).size(FlexFontSize.XS).margin(FlexMarginSize.XL)
-                .build();
-
-        Box bodyBlock = Box.builder()
-                .layout(FlexLayout.VERTICAL)
-                .contents(asList(bodyBlockTextTitle,bodyBlockInfo,separator,bodyBlockTextDetail))
-                .build();
-
+        Box bodyBlock = createInfoBox();
         Box footerBlock = createFooterBlock();
 
         Bubble bubbleContainer = Bubble.builder()
@@ -50,95 +37,110 @@ public class TakeCareFlexMessageSupplier implements Supplier<FlexMessage> {
                 .footer(footerBlock)
                 .build();
 
-        return new FlexMessage("TakeCareFlexMessage" , bubbleContainer);
+        return new FlexMessage("Monitor", bubbleContainer);
     }
 
     private Box createInfoBox() {
-        final Box place = Box.builder()
+        final Box serviceName = Box.builder()
                 .layout(FlexLayout.BASELINE)
                 .spacing(FlexMarginSize.SM)
                 .contents(asList(
                         Text.builder()
-                                .text("Place")
+                                .text("Service")
                                 .color("#aaaaaa")
                                 .size(FlexFontSize.SM)
                                 .flex(1)
                                 .build(),
                         Text.builder()
-                                .text("Wattana , Bangkok")
+                                .text("testServiceName")
                                 .wrap(true)
                                 .color("#666666")
                                 .flex(5)
                                 .build()
                 )).build();
-        final Box time = Box.builder()
+        final Box osDetail = Box.builder()
                 .layout(FlexLayout.BASELINE)
                 .spacing(FlexMarginSize.SM)
                 .contents(asList(
-                        Text.builder().text("Time")
+                        Text.builder().text("OS")
                                 .color("#aaaaaa")
                                 .size(FlexFontSize.SM)
                                 .flex(1)
                                 .build(),
                         Text.builder()
-                                .text("10:00 - 23:00")
-                                .wrap(true)
-                                .color("#666666")
-                                .size(FlexFontSize.SM)
-                                .flex(5)
-                                .build()
-                )).build();
-        final Box tel = Box.builder()
-                .layout(FlexLayout.BASELINE)
-                .spacing(FlexMarginSize.SM)
-                .contents(asList(
-                        Text.builder().text("Tel")
-                                .color("#aaaaaa")
-                                .size(FlexFontSize.SM)
-                                .flex(1)
-                                .build(),
-                        Text.builder()
-                                .text("02-254-4900 - 06")
+                                .text("win10 10.0")
                                 .wrap(true)
                                 .color("#666666")
                                 .size(FlexFontSize.SM)
                                 .flex(5)
                                 .build()
                 )).build();
-        final Box email = Box.builder()
+        final Box osArch = Box.builder()
                 .layout(FlexLayout.BASELINE)
                 .spacing(FlexMarginSize.SM)
                 .contents(asList(
-                        Text.builder().text("Email")
+                        Text.builder().text("OS Arch")
                                 .color("#aaaaaa")
                                 .size(FlexFontSize.SM)
                                 .flex(1)
                                 .build(),
                         Text.builder()
-                                .text("info@takecarebeauty.com")
+                                .text("amd64 , 8 core")
                                 .wrap(true)
                                 .color("#666666")
                                 .size(FlexFontSize.SM)
                                 .flex(5)
                                 .build()
                 )).build();
+        final Box cpuUsage = Box.builder()
+                .layout(FlexLayout.BASELINE)
+                .spacing(FlexMarginSize.SM)
+                .contents(asList(
+                        Text.builder().text("CPU Usage")
+                                .color("#aaaaaa")
+                                .size(FlexFontSize.SM)
+                                .flex(1)
+                                .build(),
+                        Text.builder()
+                                .text("████████▒▒ , 80%")
+                                .wrap(true)
+                                .color("#666666")
+                                .size(FlexFontSize.SM)
+                                .flex(5)
+                                .build()
+                )).build();
+        final Box memUage = Box.builder()
+                .layout(FlexLayout.BASELINE)
+                .spacing(FlexMarginSize.SM)
+                .contents(asList(
+                        Text.builder().text("Mem Usage")
+                                .color("#aaaaaa")
+                                .size(FlexFontSize.SM)
+                                .flex(1)
+                                .build(),
+                        Text.builder()
+                                .text("██▒▒▒▒▒▒▒▒ , 20%")
+                                .wrap(true)
+                                .color("#666666")
+                                .size(FlexFontSize.SM)
+                                .flex(5)
+                                .build()
+                )).build();
+
         return Box.builder()
                 .layout(FlexLayout.VERTICAL)
                 .margin(FlexMarginSize.LG)
                 .spacing(FlexMarginSize.SM)
-                .contents(asList(place, time,tel ,email))
+                .contents(asList(serviceName, osDetail, osArch, cpuUsage, memUage))
                 .build();
     }
 
-    private Box createFooterBlock() {
+    private Box createFooterBlock(){
         final Spacer spacer = Spacer.builder().size(FlexMarginSize.SM).build();
-
         final Button websiteAction = Button.builder()
                 .style(Button.ButtonStyle.LINK)
                 .height(Button.ButtonHeight.SMALL)
-                .action(new PostbackAction("言 hello2",
-                        "hello こんにちは",
-                        "hello こんにちは"))
+                .action(new URIAction("More Detail...", "https://example.com"))
                 .build();
 
         return Box.builder()
@@ -146,6 +148,5 @@ public class TakeCareFlexMessageSupplier implements Supplier<FlexMessage> {
                 .spacing(FlexMarginSize.SM)
                 .contents(asList(spacer, websiteAction))
                 .build();
-
     }
 }
