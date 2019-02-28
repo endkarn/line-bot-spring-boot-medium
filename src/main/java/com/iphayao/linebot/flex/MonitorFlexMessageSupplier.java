@@ -43,8 +43,8 @@ public class MonitorFlexMessageSupplier implements Supplier<FlexMessage> {
         JSONObject jsonObject = new JSONObject(map);
 
         serviceName = jsonObject.getString("serviceName");
-        sysCpuLoad = jsonObject.getDouble("sysCpuLoad");
-        proCpuLoad = jsonObject.getDouble("proCpuLoad");
+        sysCpuLoad = jsonObject.getDouble("sysCpuLoad")*100;
+        proCpuLoad = jsonObject.getDouble("proCpuLoad")*100;
         memTotal = jsonObject.getDouble("memTotal");
         memFreeTotal = jsonObject.getDouble("memFreeTotal");
         currentMemUse = jsonObject.getDouble("currentMemUse");
