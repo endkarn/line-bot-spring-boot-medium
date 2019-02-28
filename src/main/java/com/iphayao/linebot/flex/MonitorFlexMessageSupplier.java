@@ -93,7 +93,7 @@ public class MonitorFlexMessageSupplier implements Supplier<FlexMessage> {
                 .build();
         Box bodyBlockDetail = createInfoBox();
         Box bodyBlock = Box.builder()
-                .layout(FlexLayout.VERTICAL)
+                .layout(FlexLayout.HORIZONTAL)
                 .contents(asList(bodyBlockTextTitle, bodyBlockDetail))
                 .build();
         Box footerBlock = createFooterBlock();
@@ -169,7 +169,7 @@ public class MonitorFlexMessageSupplier implements Supplier<FlexMessage> {
                                 .flex(1)
                                 .build(),
                         Text.builder()
-                                .text("["+cpuPercentBlock+"], ("+sysCpuLoad+"%)")
+                                .text("["+textCpuBlock+"], ("+sysCpuLoad+"%)")
                                 .wrap(true)
                                 .color("#666666")
                                 .size(FlexFontSize.SM)
@@ -186,7 +186,7 @@ public class MonitorFlexMessageSupplier implements Supplier<FlexMessage> {
                                 .flex(1)
                                 .build(),
                         Text.builder()
-                                .text("["+memPercentBlock+"], ("+currentMemUse+"%)")
+                                .text("["+textMemBlock+"], ("+currentMemUse+"%)")
                                 .wrap(true)
                                 .color("#666666")
                                 .size(FlexFontSize.SM)
