@@ -82,7 +82,7 @@ public class MonitorFlexMessageSupplier implements Supplier<FlexMessage> {
         Image heroBlock = Image.builder()
                 .url("https://assetsds.cdnedge.bluemix.net/sites/default/files/styles/big_2/public/feature/images/potato_pc.jpg")
                 .size(Image.ImageSize.FULL_WIDTH)
-                .aspectRatio(Image.ImageAspectRatio.R9TO16)
+                .aspectRatio(Image.ImageAspectRatio.R16TO9)
                 .aspectMode(Image.ImageAspectMode.Cover)
                 .build();
         Separator separator = Separator.builder().build();
