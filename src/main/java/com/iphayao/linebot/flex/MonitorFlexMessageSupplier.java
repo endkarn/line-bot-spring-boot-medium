@@ -1,5 +1,6 @@
 package com.iphayao.linebot.flex;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.linecorp.bot.model.action.URIAction;
 import com.linecorp.bot.model.message.FlexMessage;
 import com.linecorp.bot.model.message.flex.component.*;
@@ -7,15 +8,77 @@ import com.linecorp.bot.model.message.flex.container.Bubble;
 import com.linecorp.bot.model.message.flex.unit.FlexFontSize;
 import com.linecorp.bot.model.message.flex.unit.FlexLayout;
 import com.linecorp.bot.model.message.flex.unit.FlexMarginSize;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
+import java.net.URL;
+import java.util.Map;
 import java.util.function.Supplier;
 
 import static java.util.Arrays.asList;
 
 public class MonitorFlexMessageSupplier implements Supplier<FlexMessage> {
 
+    String serviceName;
+    double sysCpuLoad;
+    double proCpuLoad;
+    double memTotal;
+    double memFreeTotal;
+    double currentMemUse;
+    double availableCore;
+    String osName;
+    String osVersion;
+    String osArch;
+    JSONArray storage;
+    int cpuPercentBlock;
+    int memPercentBlock;
+    String textCpuBlock;
+    String textMemBlock;
+
+    private void init() throws Exception{
+        ObjectMapper mapper = new ObjectMapper();
+        URL jsonUrl = new URL("http://localhost:3000/sysinfo/metric");
+        jsonUrl.openConnection().connect();
+        Map map = mapper.readValue(jsonUrl, Map.class);
+        JSONObject jsonObject = new JSONObject(map);
+
+        serviceName = jsonObject.getString("serviceName");
+        sysCpuLoad = jsonObject.getDouble("sysCpuLoad");
+        proCpuLoad = jsonObject.getDouble("proCpuLoad");
+        memTotal = jsonObject.getDouble("memTotal");
+        memFreeTotal = jsonObject.getDouble("memFreeTotal");
+        currentMemUse = jsonObject.getDouble("currentMemUse");
+        availableCore = jsonObject.getDouble("availableCore");
+        osName = jsonObject.getString("osName");
+        osVersion = jsonObject.getString("osVersion");
+        osArch = jsonObject.getString("osArch");
+        storage = jsonObject.getJSONArray("storage");
+
+        cpuPercentBlock = (int) sysCpuLoad / 10;
+        memPercentBlock = (int) currentMemUse / 10;
+        textCpuBlock = "";
+        textMemBlock = "";
+        for (int i = 0; i <= 10; i++) {
+            if (i <= cpuPercentBlock)
+                textCpuBlock = textCpuBlock+"█";
+            else
+                textCpuBlock = textCpuBlock+"▒";
+
+            if (i <= memPercentBlock)
+                textMemBlock = textMemBlock+"█";
+            else
+                textMemBlock = textMemBlock+"▒";
+
+        }
+    }
+
     @Override
-    public FlexMessage get() {
+    public FlexMessage get(){
+        try {
+            init();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         Image heroBlock = Image.builder()
                 .url("https://assetsds.cdnedge.bluemix.net/sites/default/files/styles/big_2/public/feature/images/potato_pc.jpg")
                 .size(Image.ImageSize.FULL_WIDTH)
@@ -31,7 +94,7 @@ public class MonitorFlexMessageSupplier implements Supplier<FlexMessage> {
         Box bodyBlockDetail = createInfoBox();
         Box bodyBlock = Box.builder()
                 .layout(FlexLayout.VERTICAL)
-                .contents(asList(bodyBlockTextTitle,bodyBlockDetail))
+                .contents(asList(bodyBlockTextTitle, bodyBlockDetail))
                 .build();
         Box footerBlock = createFooterBlock();
 
@@ -45,7 +108,7 @@ public class MonitorFlexMessageSupplier implements Supplier<FlexMessage> {
     }
 
     private Box createInfoBox() {
-        final Box serviceName = Box.builder()
+        final Box serviceBox = Box.builder()
                 .layout(FlexLayout.BASELINE)
                 .spacing(FlexMarginSize.SM)
                 .contents(asList(
@@ -56,13 +119,13 @@ public class MonitorFlexMessageSupplier implements Supplier<FlexMessage> {
                                 .flex(1)
                                 .build(),
                         Text.builder()
-                                .text("testServiceName")
+                                .text(serviceName)
                                 .wrap(true)
                                 .color("#666666")
                                 .flex(5)
                                 .build()
                 )).build();
-        final Box osDetail = Box.builder()
+        final Box osDetailBox = Box.builder()
                 .layout(FlexLayout.BASELINE)
                 .spacing(FlexMarginSize.SM)
                 .contents(asList(
@@ -72,14 +135,14 @@ public class MonitorFlexMessageSupplier implements Supplier<FlexMessage> {
                                 .flex(1)
                                 .build(),
                         Text.builder()
-                                .text("win10 10.0")
+                                .text(osName +" v."+osVersion)
                                 .wrap(true)
                                 .color("#666666")
                                 .size(FlexFontSize.SM)
                                 .flex(5)
                                 .build()
                 )).build();
-        final Box osArch = Box.builder()
+        final Box osArchBox = Box.builder()
                 .layout(FlexLayout.BASELINE)
                 .spacing(FlexMarginSize.SM)
                 .contents(asList(
@@ -89,14 +152,14 @@ public class MonitorFlexMessageSupplier implements Supplier<FlexMessage> {
                                 .flex(1)
                                 .build(),
                         Text.builder()
-                                .text("amd64 , 8 core")
+                                .text(osArch+","+availableCore+" cores")
                                 .wrap(true)
                                 .color("#666666")
                                 .size(FlexFontSize.SM)
                                 .flex(5)
                                 .build()
                 )).build();
-        final Box cpuUsage = Box.builder()
+        final Box cpuUsageBox = Box.builder()
                 .layout(FlexLayout.BASELINE)
                 .spacing(FlexMarginSize.SM)
                 .contents(asList(
@@ -106,14 +169,14 @@ public class MonitorFlexMessageSupplier implements Supplier<FlexMessage> {
                                 .flex(1)
                                 .build(),
                         Text.builder()
-                                .text("████████▒▒ , 80%")
+                                .text("["+cpuPercentBlock+"], ("+sysCpuLoad+"%)")
                                 .wrap(true)
                                 .color("#666666")
                                 .size(FlexFontSize.SM)
                                 .flex(5)
                                 .build()
                 )).build();
-        final Box memUage = Box.builder()
+        final Box memUageBox = Box.builder()
                 .layout(FlexLayout.BASELINE)
                 .spacing(FlexMarginSize.SM)
                 .contents(asList(
@@ -123,7 +186,7 @@ public class MonitorFlexMessageSupplier implements Supplier<FlexMessage> {
                                 .flex(1)
                                 .build(),
                         Text.builder()
-                                .text("██▒▒▒▒▒▒▒▒ , 20%")
+                                .text("["+memPercentBlock+"], ("+currentMemUse+"%)")
                                 .wrap(true)
                                 .color("#666666")
                                 .size(FlexFontSize.SM)
@@ -135,11 +198,11 @@ public class MonitorFlexMessageSupplier implements Supplier<FlexMessage> {
                 .layout(FlexLayout.VERTICAL)
                 .margin(FlexMarginSize.LG)
                 .spacing(FlexMarginSize.SM)
-                .contents(asList(serviceName, osDetail, osArch, cpuUsage, memUage))
+                .contents(asList(serviceBox, osDetailBox, osArchBox, cpuUsageBox, memUageBox))
                 .build();
     }
 
-    private Box createFooterBlock(){
+    private Box createFooterBlock() {
         final Spacer spacer = Spacer.builder().size(FlexMarginSize.SM).build();
         final Button websiteAction = Button.builder()
                 .style(Button.ButtonStyle.LINK)
