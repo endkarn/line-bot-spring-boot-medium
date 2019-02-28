@@ -37,7 +37,7 @@ public class MonitorFlexMessageSupplier implements Supplier<FlexMessage> {
 
     private void init() throws Exception{
         ObjectMapper mapper = new ObjectMapper();
-        URL jsonUrl = new URL("http://103.253.72.79:8080/takecare-pos-service");
+        URL jsonUrl = new URL("http://103.253.72.79:8080/takecare-pos-service/sysinfo/metric");
         jsonUrl.openConnection().connect();
         Map map = mapper.readValue(jsonUrl, Map.class);
         JSONObject jsonObject = new JSONObject(map);
