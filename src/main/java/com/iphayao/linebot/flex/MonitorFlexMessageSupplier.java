@@ -35,7 +35,7 @@ public class MonitorFlexMessageSupplier implements Supplier<FlexMessage> {
     String textCpuBlock;
     String textMemBlock;
 
-    private void init() throws Exception{
+    private void init() throws Exception {
         ObjectMapper mapper = new ObjectMapper();
         URL jsonUrl = new URL("http://103.253.72.79:8080/takecare-pos-service/sysinfo/metric");
         jsonUrl.openConnection().connect();
@@ -60,20 +60,20 @@ public class MonitorFlexMessageSupplier implements Supplier<FlexMessage> {
         textMemBlock = "";
         for (int i = 0; i <= 10; i++) {
             if (i <= cpuPercentBlock)
-                textCpuBlock = textCpuBlock+"█";
+                textCpuBlock = textCpuBlock + "█";
             else
-                textCpuBlock = textCpuBlock+"▒";
+                textCpuBlock = textCpuBlock + "▒";
 
             if (i <= memPercentBlock)
-                textMemBlock = textMemBlock+"█";
+                textMemBlock = textMemBlock + "█";
             else
-                textMemBlock = textMemBlock+"▒";
+                textMemBlock = textMemBlock + "▒";
 
         }
     }
 
     @Override
-    public FlexMessage get(){
+    public FlexMessage get() {
         try {
             init();
         } catch (Exception e) {
@@ -123,82 +123,87 @@ public class MonitorFlexMessageSupplier implements Supplier<FlexMessage> {
                                 .wrap(true)
                                 .color("#666666")
                                 .flex(5)
-                                .build()
-                )).build();
-        final Box osDetailBox = Box.builder()
-                .layout(FlexLayout.BASELINE)
-                .spacing(FlexMarginSize.SM)
-                .contents(asList(
+                                .build(),
                         Text.builder().text("OS")
                                 .color("#aaaaaa")
                                 .size(FlexFontSize.SM)
                                 .flex(1)
                                 .build(),
                         Text.builder()
-                                .text(osName +" v."+osVersion)
+                                .text(osName + " v." + osVersion)
                                 .wrap(true)
                                 .color("#666666")
                                 .size(FlexFontSize.SM)
                                 .flex(5)
-                                .build()
-                )).build();
-        final Box osArchBox = Box.builder()
-                .layout(FlexLayout.BASELINE)
-                .spacing(FlexMarginSize.SM)
-                .contents(asList(
+                                .build(),
                         Text.builder().text("OS Arch")
                                 .color("#aaaaaa")
                                 .size(FlexFontSize.SM)
                                 .flex(1)
                                 .build(),
                         Text.builder()
-                                .text(osArch+","+availableCore+" cores")
+                                .text(osArch + "," + availableCore + " cores")
                                 .wrap(true)
                                 .color("#666666")
                                 .size(FlexFontSize.SM)
                                 .flex(5)
-                                .build()
-                )).build();
-        final Box cpuUsageBox = Box.builder()
-                .layout(FlexLayout.BASELINE)
-                .spacing(FlexMarginSize.SM)
-                .contents(asList(
+                                .build(),
                         Text.builder().text("CPU Usage")
                                 .color("#aaaaaa")
                                 .size(FlexFontSize.SM)
                                 .flex(1)
                                 .build(),
                         Text.builder()
-                                .text("["+textCpuBlock+"], ("+sysCpuLoad+"%)")
+                                .text("[" + textCpuBlock + "], (" + sysCpuLoad + "%)")
                                 .wrap(true)
                                 .color("#666666")
                                 .size(FlexFontSize.SM)
                                 .flex(5)
-                                .build()
-                )).build();
-        final Box memUageBox = Box.builder()
-                .layout(FlexLayout.BASELINE)
-                .spacing(FlexMarginSize.SM)
-                .contents(asList(
+                                .build(),
                         Text.builder().text("Mem Usage")
                                 .color("#aaaaaa")
                                 .size(FlexFontSize.SM)
                                 .flex(1)
                                 .build(),
                         Text.builder()
-                                .text("["+textMemBlock+"], ("+currentMemUse+"%)")
+                                .text("[" + textMemBlock + "], (" + currentMemUse + "%)")
                                 .wrap(true)
                                 .color("#666666")
                                 .size(FlexFontSize.SM)
                                 .flex(5)
                                 .build()
+
                 )).build();
+//        final Box osDetailBox = Box.builder()
+//                .layout(FlexLayout.BASELINE)
+//                .spacing(FlexMarginSize.SM)
+//                .contents(asList(
+//
+//                )).build();
+//        final Box osArchBox = Box.builder()
+//                .layout(FlexLayout.BASELINE)
+//                .spacing(FlexMarginSize.SM)
+//                .contents(asList(
+//
+//                )).build();
+//        final Box cpuUsageBox = Box.builder()
+//                .layout(FlexLayout.BASELINE)
+//                .spacing(FlexMarginSize.SM)
+//                .contents(asList(
+//
+//                )).build();
+//        final Box memUageBox = Box.builder()
+//                .layout(FlexLayout.BASELINE)
+//                .spacing(FlexMarginSize.SM)
+//                .contents(asList(
+//
+//                )).build();
 
         return Box.builder()
                 .layout(FlexLayout.VERTICAL)
                 .margin(FlexMarginSize.LG)
                 .spacing(FlexMarginSize.SM)
-                .contents(asList(serviceBox, osDetailBox, osArchBox, cpuUsageBox, memUageBox))
+                .contents(asList(serviceBox))
                 .build();
     }
 
