@@ -35,6 +35,7 @@ public class MonitorFlexMessageSupplier implements Supplier<FlexMessage> {
     int memPercentBlock;
     String textCpuBlock;
     String textMemBlock;
+    String textFullStorage;
 
     private void init() throws Exception {
         ObjectMapper mapper = new ObjectMapper();
@@ -44,7 +45,7 @@ public class MonitorFlexMessageSupplier implements Supplier<FlexMessage> {
         JSONObject jsonObject = new JSONObject(map);
 
         serviceName = jsonObject.getString("serviceName");
-        sysCpuLoad = jsonObject.getDouble("sysCpuLoad") * 100;
+        sysCpuLoad = jsonObject.getDouble("sysCpuLoad");
         proCpuLoad = jsonObject.getDouble("proCpuLoad") * 100;
         memTotal = jsonObject.getDouble("memTotal");
         memFreeTotal = jsonObject.getDouble("memFreeTotal");
@@ -69,8 +70,17 @@ public class MonitorFlexMessageSupplier implements Supplier<FlexMessage> {
                 textMemBlock = textMemBlock + "█";
             else
                 textMemBlock = textMemBlock + "▒";
-
         }
+
+        for (int i = 0; i < storage.length(); i++) {
+            JSONObject aStorage = storage.getJSONObject(i);
+            String absPath = aStorage.getString("absPath");
+            long freeSpace = aStorage.getLong("freeSpace") / 1048576;
+            long totalSpace = aStorage.getLong("totalSpace") / 1048576;
+            long usableSpace = aStorage.getLong("usableSpace") / 1048576;
+            textFullStorage = textFullStorage+String.format("partition (%s) / [%d/%d] / ~%d \n",absPath,usableSpace,totalSpace,(totalSpace-freeSpace)/totalSpace);
+        }
+
     }
 
     @Override
@@ -199,24 +209,17 @@ public class MonitorFlexMessageSupplier implements Supplier<FlexMessage> {
                                 .flex(5)
                                 .build()
                 )).build();
-
-//        final List<Box> storageBoxList = new ArrayList<>();
-//        for (int i = 0; i < storage.length(); i++) {
-//            storageBoxList.add(aStorageBox);
-//
-//        }
-//        JSONObject aStorage = storage.getJSONObject(i);
         Box aStorageBox = Box.builder()
                 .layout(FlexLayout.BASELINE)
                 .spacing(FlexMarginSize.SM)
                 .contents(asList(
-                        Text.builder().text("Storeage Usage")
+                        Text.builder().text("Storage Usage")
                                 .color("#aaaaaa")
                                 .size(FlexFontSize.SM)
                                 .flex(1)
                                 .build(),
                         Text.builder()
-                                .text("test \n\n\n\n test")
+                                .text(textFullStorage)
                                 .wrap(true)
                                 .color("#666666")
                                 .size(FlexFontSize.SM)
