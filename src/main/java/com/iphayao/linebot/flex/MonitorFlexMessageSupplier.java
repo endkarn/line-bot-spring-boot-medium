@@ -9,9 +9,12 @@ import com.linecorp.bot.model.message.flex.unit.FlexFontSize;
 import com.linecorp.bot.model.message.flex.unit.FlexLayout;
 import com.linecorp.bot.model.message.flex.unit.FlexMarginSize;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 
@@ -35,7 +38,7 @@ public class MonitorFlexMessageSupplier implements Supplier<FlexMessage> {
     String textCpuBlock;
     String textMemBlock;
 
-    private void init() throws Exception{
+    private void init() throws Exception {
         ObjectMapper mapper = new ObjectMapper();
         URL jsonUrl = new URL("http://103.253.72.79:8080/takecare-pos-service/sysinfo/metric");
         jsonUrl.openConnection().connect();
@@ -43,8 +46,8 @@ public class MonitorFlexMessageSupplier implements Supplier<FlexMessage> {
         JSONObject jsonObject = new JSONObject(map);
 
         serviceName = jsonObject.getString("serviceName");
-        sysCpuLoad = jsonObject.getDouble("sysCpuLoad")*100;
-        proCpuLoad = jsonObject.getDouble("proCpuLoad")*100;
+        sysCpuLoad = jsonObject.getDouble("sysCpuLoad") * 100;
+        proCpuLoad = jsonObject.getDouble("proCpuLoad") * 100;
         memTotal = jsonObject.getDouble("memTotal");
         memFreeTotal = jsonObject.getDouble("memFreeTotal");
         currentMemUse = jsonObject.getDouble("currentMemUse");
@@ -60,20 +63,20 @@ public class MonitorFlexMessageSupplier implements Supplier<FlexMessage> {
         textMemBlock = "";
         for (int i = 0; i <= 10; i++) {
             if (i <= cpuPercentBlock)
-                textCpuBlock = textCpuBlock+"█";
+                textCpuBlock = textCpuBlock + "█";
             else
-                textCpuBlock = textCpuBlock+"▒";
+                textCpuBlock = textCpuBlock + "▒";
 
             if (i <= memPercentBlock)
-                textMemBlock = textMemBlock+"█";
+                textMemBlock = textMemBlock + "█";
             else
-                textMemBlock = textMemBlock+"▒";
+                textMemBlock = textMemBlock + "▒";
 
         }
     }
 
     @Override
-    public FlexMessage get(){
+    public FlexMessage get() {
         try {
             init();
         } catch (Exception e) {
@@ -91,7 +94,12 @@ public class MonitorFlexMessageSupplier implements Supplier<FlexMessage> {
                 .weight(Text.TextWeight.BOLD)
                 .size(FlexFontSize.XL)
                 .build();
-        Box bodyBlockDetail = createInfoBox();
+        Box bodyBlockDetail = null;
+        try {
+            bodyBlockDetail = createInfoBox();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         Box bodyBlock = Box.builder()
                 .layout(FlexLayout.VERTICAL)
                 .contents(asList(bodyBlockTextTitle, bodyBlockDetail))
@@ -107,7 +115,7 @@ public class MonitorFlexMessageSupplier implements Supplier<FlexMessage> {
         return new FlexMessage("Monitor", bubbleContainer);
     }
 
-    private Box createInfoBox() {
+    private Box createInfoBox() throws JSONException {
         final Box serviceBox = Box.builder()
                 .layout(FlexLayout.BASELINE)
                 .spacing(FlexMarginSize.SM)
@@ -135,7 +143,7 @@ public class MonitorFlexMessageSupplier implements Supplier<FlexMessage> {
                                 .flex(1)
                                 .build(),
                         Text.builder()
-                                .text(osName +" v."+osVersion)
+                                .text(osName + " v." + osVersion)
                                 .wrap(true)
                                 .color("#666666")
                                 .size(FlexFontSize.SM)
@@ -152,7 +160,7 @@ public class MonitorFlexMessageSupplier implements Supplier<FlexMessage> {
                                 .flex(1)
                                 .build(),
                         Text.builder()
-                                .text(osArch+","+availableCore+" cores")
+                                .text(osArch + "," + availableCore + " cores")
                                 .wrap(true)
                                 .color("#666666")
                                 .size(FlexFontSize.SM)
@@ -169,7 +177,7 @@ public class MonitorFlexMessageSupplier implements Supplier<FlexMessage> {
                                 .flex(1)
                                 .build(),
                         Text.builder()
-                                .text("["+textCpuBlock+"], ("+sysCpuLoad+"%)")
+                                .text("[" + textCpuBlock + "], (" + sysCpuLoad + "%)")
                                 .wrap(true)
                                 .color("#666666")
                                 .size(FlexFontSize.SM)
@@ -186,13 +194,37 @@ public class MonitorFlexMessageSupplier implements Supplier<FlexMessage> {
                                 .flex(1)
                                 .build(),
                         Text.builder()
-                                .text("["+textMemBlock+"], ("+currentMemUse+"%)")
+                                .text("[" + textMemBlock + "], (" + currentMemUse + "%)")
                                 .wrap(true)
                                 .color("#666666")
                                 .size(FlexFontSize.SM)
                                 .flex(5)
                                 .build()
                 )).build();
+
+        final List<Box> storageBoxList = new ArrayList<>();
+        for (int i = 0; i < storage.length(); i++) {
+            JSONObject aStorage = storage.getJSONObject(i);
+            Box aStorageBox = Box.builder()
+                    .layout(FlexLayout.BASELINE)
+                    .spacing(FlexMarginSize.SM)
+                    .contents(asList(
+                            Text.builder().text("Storeage Usage")
+                                    .color("#aaaaaa")
+                                    .size(FlexFontSize.SM)
+                                    .flex(1)
+                                    .build(),
+                            Text.builder()
+                                    .text("test \n\n\n\n test")
+                                    .wrap(true)
+                                    .color("#666666")
+                                    .size(FlexFontSize.SM)
+                                    .flex(5)
+                                    .build()
+                    )).build();
+            storageBoxList.add(aStorageBox);
+
+        }
 
         return Box.builder()
                 .layout(FlexLayout.VERTICAL)
@@ -205,8 +237,8 @@ public class MonitorFlexMessageSupplier implements Supplier<FlexMessage> {
     private Box createFooterBlock() {
         final Spacer spacer = Spacer.builder().size(FlexMarginSize.SM).build();
         final Button websiteAction = Button.builder()
-                .style(Button.ButtonStyle.LINK)
-                .height(Button.ButtonHeight.SMALL)
+                .style(Button.ButtonStyle.PRIMARY)
+                .height(Button.ButtonHeight.MEDIUM)
                 .action(new URIAction("More Detail...", "https://example.com"))
                 .build();
 
