@@ -35,6 +35,7 @@ public class MonitorFlexMessageSupplier implements Supplier<FlexMessage> {
     int memPercentBlock;
     String textCpuBlock;
     String textMemBlock;
+    String ipHost;
     String textFullStorage = "";
 
     private void init() throws Exception {
@@ -55,6 +56,7 @@ public class MonitorFlexMessageSupplier implements Supplier<FlexMessage> {
         osVersion = jsonObject.getString("osVersion");
         osArch = jsonObject.getString("osArch");
         storage = jsonObject.getJSONArray("storage");
+        ipHost = jsonObject.getString("ipHost");
 
         cpuPercentBlock = (int) sysCpuLoad / 10;
         memPercentBlock = (int) currentMemUse / 10;
@@ -103,7 +105,7 @@ public class MonitorFlexMessageSupplier implements Supplier<FlexMessage> {
                 .size(FlexFontSize.XL)
                 .build();
         Text bodyBlockSubTextTitle = Text.builder()
-                .text("#4ca5962f-b8f4-4259-941d-aa4b3aa1ed9a")
+                .text("#"+ipHost)
                 .weight(Text.TextWeight.REGULAR)
                 .size(FlexFontSize.XXS)
                 .build();
