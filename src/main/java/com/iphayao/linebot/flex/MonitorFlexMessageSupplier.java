@@ -13,8 +13,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 
@@ -202,35 +200,35 @@ public class MonitorFlexMessageSupplier implements Supplier<FlexMessage> {
                                 .build()
                 )).build();
 
-        final List<Box> storageBoxList = new ArrayList<>();
-        for (int i = 0; i < storage.length(); i++) {
-            JSONObject aStorage = storage.getJSONObject(i);
-            Box aStorageBox = Box.builder()
-                    .layout(FlexLayout.BASELINE)
-                    .spacing(FlexMarginSize.SM)
-                    .contents(asList(
-                            Text.builder().text("Storeage Usage")
-                                    .color("#aaaaaa")
-                                    .size(FlexFontSize.SM)
-                                    .flex(1)
-                                    .build(),
-                            Text.builder()
-                                    .text("test \n\n\n\n test")
-                                    .wrap(true)
-                                    .color("#666666")
-                                    .size(FlexFontSize.SM)
-                                    .flex(5)
-                                    .build()
-                    )).build();
-            storageBoxList.add(aStorageBox);
-
-        }
+//        final List<Box> storageBoxList = new ArrayList<>();
+//        for (int i = 0; i < storage.length(); i++) {
+//            storageBoxList.add(aStorageBox);
+//
+//        }
+//        JSONObject aStorage = storage.getJSONObject(i);
+        Box aStorageBox = Box.builder()
+                .layout(FlexLayout.BASELINE)
+                .spacing(FlexMarginSize.SM)
+                .contents(asList(
+                        Text.builder().text("Storeage Usage")
+                                .color("#aaaaaa")
+                                .size(FlexFontSize.SM)
+                                .flex(1)
+                                .build(),
+                        Text.builder()
+                                .text("test \n\n\n\n test")
+                                .wrap(true)
+                                .color("#666666")
+                                .size(FlexFontSize.SM)
+                                .flex(5)
+                                .build()
+                )).build();
 
         return Box.builder()
                 .layout(FlexLayout.VERTICAL)
                 .margin(FlexMarginSize.LG)
                 .spacing(FlexMarginSize.SM)
-                .contents(asList(serviceBox, osDetailBox, osArchBox, cpuUsageBox, memUageBox))
+                .contents(asList(serviceBox, osDetailBox, osArchBox, cpuUsageBox, memUageBox, aStorageBox))
                 .build();
     }
 
