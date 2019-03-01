@@ -78,7 +78,7 @@ public class MonitorFlexMessageSupplier implements Supplier<FlexMessage> {
             double freeSpace = aStorage.getLong("freeSpace") / 1073741824.00;
             double totalSpace = aStorage.getLong("totalSpace") / 1073741824.00;
             double usableSpace = aStorage.getLong("usableSpace") / 1073741824.00;
-            textFullStorage = textFullStorage + String.format("partition (%s) / [%.2f gb/%.2f gb] / ~%.2f%% \n", absPath, usableSpace, totalSpace, (usableSpace / totalSpace)*100);
+            textFullStorage = textFullStorage + String.format("partition (%s) / [%.2f gb/%.2f gb] / ~%.2f%% \n", absPath, totalSpace-usableSpace, totalSpace, (totalSpace-usableSpace / totalSpace)*100);
         }
 
     }
