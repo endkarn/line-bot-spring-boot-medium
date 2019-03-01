@@ -35,7 +35,7 @@ public class MonitorFlexMessageSupplier implements Supplier<FlexMessage> {
     int memPercentBlock;
     String textCpuBlock;
     String textMemBlock;
-    String textFullStorage;
+    String textFullStorage = "";
 
     private void init() throws Exception {
         ObjectMapper mapper = new ObjectMapper();
@@ -75,10 +75,10 @@ public class MonitorFlexMessageSupplier implements Supplier<FlexMessage> {
         for (int i = 0; i < storage.length(); i++) {
             JSONObject aStorage = storage.getJSONObject(i);
             String absPath = aStorage.getString("absPath");
-            long freeSpace = aStorage.getLong("freeSpace") / 1048576;
-            long totalSpace = aStorage.getLong("totalSpace") / 1048576;
-            long usableSpace = aStorage.getLong("usableSpace") / 1048576;
-            textFullStorage = textFullStorage+String.format("partition (%s) / [%d/%d] / ~%d \n",absPath,usableSpace,totalSpace,(totalSpace-freeSpace)/totalSpace);
+            double freeSpace = aStorage.getLong("freeSpace") / 1073741824.00;
+            double totalSpace = aStorage.getLong("totalSpace") / 1073741824.00;
+            double usableSpace = aStorage.getLong("usableSpace") / 1073741824.00;
+            textFullStorage = textFullStorage + String.format("partition (%s) / [%.2f gb/%.2f gb] / ~%.2f \n", absPath, usableSpace, totalSpace, (usableSpace / totalSpace));
         }
 
     }
