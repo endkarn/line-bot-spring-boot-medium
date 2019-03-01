@@ -5,6 +5,7 @@ import com.linecorp.bot.model.action.URIAction;
 import com.linecorp.bot.model.message.FlexMessage;
 import com.linecorp.bot.model.message.flex.component.*;
 import com.linecorp.bot.model.message.flex.container.Bubble;
+import com.linecorp.bot.model.message.flex.unit.FlexAlign;
 import com.linecorp.bot.model.message.flex.unit.FlexFontSize;
 import com.linecorp.bot.model.message.flex.unit.FlexLayout;
 import com.linecorp.bot.model.message.flex.unit.FlexMarginSize;
@@ -238,6 +239,7 @@ public class MonitorFlexMessageSupplier implements Supplier<FlexMessage> {
     private Box createFooterBlock() {
         final Spacer spacer = Spacer.builder().size(FlexMarginSize.SM).build();
         final Text detailText = Text.builder()
+                .align(FlexAlign.CENTER)
                 .text("Login by : [staff,123456]")
                 .size(FlexFontSize.SM)
                 .flex(4)
