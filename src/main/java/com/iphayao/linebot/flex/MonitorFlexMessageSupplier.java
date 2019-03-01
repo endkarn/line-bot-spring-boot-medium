@@ -10,7 +10,6 @@ import com.linecorp.bot.model.message.flex.unit.FlexFontSize;
 import com.linecorp.bot.model.message.flex.unit.FlexLayout;
 import com.linecorp.bot.model.message.flex.unit.FlexMarginSize;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.URL;
@@ -79,7 +78,7 @@ public class MonitorFlexMessageSupplier implements Supplier<FlexMessage> {
             double freeSpace = aStorage.getLong("freeSpace") / 1073741824.00;
             double totalSpace = aStorage.getLong("totalSpace") / 1073741824.00;
             double usableSpace = aStorage.getLong("usableSpace") / 1073741824.00;
-            textFullStorage = textFullStorage + String.format("partition (%s) / [%.2f gb/%.2f gb] / ~%.2f%% \n", absPath, totalSpace - usableSpace, totalSpace, ((totalSpace - usableSpace) / totalSpace) * 100);
+            textFullStorage = textFullStorage + String.format("partition (%s) \n [%.2f gb/%.2f gb] ~%.2f%% \n", absPath, totalSpace - usableSpace, totalSpace, ((totalSpace - usableSpace) / totalSpace) * 100);
         }
 
     }
@@ -97,21 +96,21 @@ public class MonitorFlexMessageSupplier implements Supplier<FlexMessage> {
                 .aspectRatio(Image.ImageAspectRatio.R16TO9)
                 .aspectMode(Image.ImageAspectMode.Cover)
                 .build();
-        Separator separator = Separator.builder().build();
+//        Separator separator = Separator.builder().build();
         Text bodyBlockTextTitle = Text.builder()
                 .text("Monitor VPS")
                 .weight(Text.TextWeight.BOLD)
                 .size(FlexFontSize.XL)
                 .build();
-        Box bodyBlockDetail = null;
-        try {
-            bodyBlockDetail = createInfoBox();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        Text bodyBlockSubTextTitle = Text.builder()
+                .text("#4ca5962f-b8f4-4259-941d-aa4b3aa1ed9a")
+                .weight(Text.TextWeight.REGULAR)
+                .size(FlexFontSize.XXS)
+                .build();
+        Box bodyBlockDetail = createInfoBox();
         Box bodyBlock = Box.builder()
                 .layout(FlexLayout.VERTICAL)
-                .contents(asList(bodyBlockTextTitle, bodyBlockDetail))
+                .contents(asList(bodyBlockTextTitle, bodyBlockSubTextTitle, bodyBlockDetail))
                 .build();
         Box footerBlock = createFooterBlock();
 
@@ -124,7 +123,7 @@ public class MonitorFlexMessageSupplier implements Supplier<FlexMessage> {
         return new FlexMessage("Monitor", bubbleContainer);
     }
 
-    private Box createInfoBox() throws JSONException {
+    private Box createInfoBox() {
         final Box serviceBox = Box.builder()
                 .layout(FlexLayout.BASELINE)
                 .spacing(FlexMarginSize.SM)
@@ -133,13 +132,13 @@ public class MonitorFlexMessageSupplier implements Supplier<FlexMessage> {
                                 .text("Service")
                                 .color("#aaaaaa")
                                 .size(FlexFontSize.SM)
-                                .flex(1)
+                                .flex(2)
                                 .build(),
                         Text.builder()
                                 .text(serviceName)
                                 .wrap(true)
                                 .color("#666666")
-                                .flex(5)
+                                .flex(7)
                                 .build()
                 )).build();
         final Box osDetailBox = Box.builder()
@@ -149,14 +148,14 @@ public class MonitorFlexMessageSupplier implements Supplier<FlexMessage> {
                         Text.builder().text("OS")
                                 .color("#aaaaaa")
                                 .size(FlexFontSize.SM)
-                                .flex(1)
+                                .flex(2)
                                 .build(),
                         Text.builder()
-                                .text(osName + " v." + osVersion)
+                                .text(osName + "\nv." + osVersion)
                                 .wrap(true)
                                 .color("#666666")
                                 .size(FlexFontSize.SM)
-                                .flex(5)
+                                .flex(7)
                                 .build()
                 )).build();
         final Box osArchBox = Box.builder()
@@ -166,78 +165,77 @@ public class MonitorFlexMessageSupplier implements Supplier<FlexMessage> {
                         Text.builder().text("OS Arch")
                                 .color("#aaaaaa")
                                 .size(FlexFontSize.SM)
-                                .flex(1)
+                                .flex(2)
                                 .build(),
                         Text.builder()
-                                .text(osArch + "," + availableCore + " cores")
+                                .text(osArch + " " + availableCore + " cores")
                                 .wrap(true)
                                 .color("#666666")
                                 .size(FlexFontSize.SM)
-                                .flex(5)
+                                .flex(7)
                                 .build()
                 )).build();
         final Box cpuUsageBox = Box.builder()
                 .layout(FlexLayout.BASELINE)
                 .spacing(FlexMarginSize.SM)
                 .contents(asList(
-                        Text.builder().text("CPU Usage")
+                        Text.builder().text("CPU")
                                 .color("#aaaaaa")
                                 .size(FlexFontSize.SM)
-                                .flex(1)
+                                .flex(2)
                                 .build(),
                         Text.builder()
                                 .text("[" + textCpuBlock + "], (" + sysCpuLoad + "%)")
                                 .wrap(true)
                                 .color("#666666")
                                 .size(FlexFontSize.SM)
-                                .flex(5)
+                                .flex(7)
                                 .build()
                 )).build();
         final Box memUageBox = Box.builder()
                 .layout(FlexLayout.BASELINE)
                 .spacing(FlexMarginSize.SM)
                 .contents(asList(
-                        Text.builder().text("Mem Usage")
+                        Text.builder().text("Mem")
                                 .color("#aaaaaa")
                                 .size(FlexFontSize.SM)
-                                .flex(1)
+                                .flex(2)
                                 .build(),
                         Text.builder()
                                 .text("[" + textMemBlock + "], (" + currentMemUse + "%)")
                                 .wrap(true)
                                 .color("#666666")
                                 .size(FlexFontSize.SM)
-                                .flex(5)
+                                .flex(7)
                                 .build()
                 )).build();
         Box aStorageBox = Box.builder()
                 .layout(FlexLayout.BASELINE)
                 .spacing(FlexMarginSize.SM)
                 .contents(asList(
-                        Text.builder().text("Storage Usage")
+                        Text.builder().text("Storage")
                                 .color("#aaaaaa")
                                 .size(FlexFontSize.SM)
-                                .flex(1)
+                                .flex(2)
                                 .build(),
                         Text.builder()
                                 .text(textFullStorage)
                                 .wrap(true)
                                 .color("#666666")
                                 .size(FlexFontSize.SM)
-                                .flex(5)
+                                .flex(7)
                                 .build()
                 )).build();
 
         return Box.builder()
                 .layout(FlexLayout.VERTICAL)
                 .margin(FlexMarginSize.LG)
-                .spacing(FlexMarginSize.SM)
                 .contents(asList(serviceBox, osDetailBox, osArchBox, cpuUsageBox, memUageBox, aStorageBox))
                 .build();
     }
 
     private Box createFooterBlock() {
-        final Spacer spacer = Spacer.builder().size(FlexMarginSize.SM).build();
+        final Separator separator = Separator.builder().build();
         final Text detailText = Text.builder()
                 .align(FlexAlign.CENTER)
                 .text("Login by : [staff,123456]")
@@ -246,14 +244,14 @@ public class MonitorFlexMessageSupplier implements Supplier<FlexMessage> {
                 .build();
         final Button websiteAction = Button.builder()
                 .style(Button.ButtonStyle.PRIMARY)
-                .height(Button.ButtonHeight.MEDIUM)
+                .height(Button.ButtonHeight.SMALL)
                 .action(new URIAction("More Detail... ", "http://103.253.72.79:3000/d/takecare/host-overview?orgId=1"))
                 .build();
 
         return Box.builder()
                 .layout(FlexLayout.VERTICAL)
                 .spacing(FlexMarginSize.SM)
-                .contents(asList(spacer, detailText, websiteAction))
+                .contents(asList(separator, detailText, websiteAction))
                 .build();
     }
 }
