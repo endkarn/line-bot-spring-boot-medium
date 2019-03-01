@@ -45,11 +45,11 @@ public class MonitorFlexMessageSupplier implements Supplier<FlexMessage> {
         JSONObject jsonObject = new JSONObject(map);
 
         serviceName = jsonObject.getString("serviceName");
-        sysCpuLoad = jsonObject.getDouble("sysCpuLoad");
+        sysCpuLoad = jsonObject.getDouble("sysCpuLoad") * 100;
         proCpuLoad = jsonObject.getDouble("proCpuLoad") * 100;
         memTotal = jsonObject.getDouble("memTotal");
         memFreeTotal = jsonObject.getDouble("memFreeTotal");
-        currentMemUse = jsonObject.getDouble("currentMemUse");
+        currentMemUse = jsonObject.getDouble("currentMemUse") * 100;
         availableCore = jsonObject.getDouble("availableCore");
         osName = jsonObject.getString("osName");
         osVersion = jsonObject.getString("osVersion");
@@ -78,7 +78,7 @@ public class MonitorFlexMessageSupplier implements Supplier<FlexMessage> {
             double freeSpace = aStorage.getLong("freeSpace") / 1073741824.00;
             double totalSpace = aStorage.getLong("totalSpace") / 1073741824.00;
             double usableSpace = aStorage.getLong("usableSpace") / 1073741824.00;
-            textFullStorage = textFullStorage + String.format("partition (%s) / [%.2f gb/%.2f gb] / ~%.2f%% \n", absPath, totalSpace-usableSpace, totalSpace, ((totalSpace-usableSpace) / totalSpace)*100);
+            textFullStorage = textFullStorage + String.format("partition (%s) / [%.2f gb/%.2f gb] / ~%.2f%% \n", absPath, totalSpace - usableSpace, totalSpace, ((totalSpace - usableSpace) / totalSpace) * 100);
         }
 
     }
@@ -237,16 +237,21 @@ public class MonitorFlexMessageSupplier implements Supplier<FlexMessage> {
 
     private Box createFooterBlock() {
         final Spacer spacer = Spacer.builder().size(FlexMarginSize.SM).build();
+        final Text detailText = Text.builder()
+                .text("Login by : [staff,123456]")
+                .size(FlexFontSize.SM)
+                .flex(4)
+                .build();
         final Button websiteAction = Button.builder()
                 .style(Button.ButtonStyle.PRIMARY)
                 .height(Button.ButtonHeight.MEDIUM)
-                .action(new URIAction("More Detail...", "https://example.com"))
+                .action(new URIAction("More Detail... ", "http://103.253.72.79:3000/d/takecare/host-overview?orgId=1"))
                 .build();
 
         return Box.builder()
                 .layout(FlexLayout.VERTICAL)
                 .spacing(FlexMarginSize.SM)
-                .contents(asList(spacer, websiteAction))
+                .contents(asList(spacer, detailText, websiteAction))
                 .build();
     }
 }
