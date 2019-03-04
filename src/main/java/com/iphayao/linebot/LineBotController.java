@@ -227,8 +227,9 @@ public class LineBotController {
                 this.reply(replyToken, new MonitorFlexMessageSupplier().get());
                 break;
             }
-            case "cmd whoami": {
-                this.replyText(replyToken, callSHH("whoami"));
+            case "cmd": {
+                this.replyText(replyToken, "Enter your command...");
+                this.replyText(replyToken, callSHH(text));
                 break;
             }
             default:
