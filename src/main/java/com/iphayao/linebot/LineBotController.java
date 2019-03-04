@@ -3,6 +3,10 @@ package com.iphayao.linebot;
 import com.google.common.io.ByteStreams;
 import com.iphayao.linebot.flex.*;
 import com.iphayao.linebot.helper.RichMenuHelper;
+import com.jcraft.jsch.Channel;
+import com.jcraft.jsch.ChannelExec;
+import com.jcraft.jsch.JSch;
+import com.jcraft.jsch.Session;
 import com.linecorp.bot.client.LineMessagingClient;
 import com.linecorp.bot.client.MessageContentResponse;
 import com.linecorp.bot.model.ReplyMessage;
@@ -25,6 +29,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UncheckedIOException;
 import java.nio.file.Files;
@@ -121,6 +126,7 @@ public class LineBotController {
                                     return;
                                 }
                                 this.reply(replyToken, Arrays.asList(
+                                        new TextMessage("Reply token: " + replyToken),
                                         new TextMessage("Display name: " + profile.getDisplayName()),
                                         new TextMessage("Status message: " + profile.getStatusMessage()),
                                         new TextMessage("User ID: " + profile.getUserId())
@@ -149,17 +155,13 @@ public class LineBotController {
 //                String pathConfigFlex = new ClassPathResource("richmenu/richmenu-flexs.yml").getFile().getAbsolutePath();
                 String pathImageFlex = getClass().getClassLoader().getResource("richmenu-flexs.jpg").getPath();
                 String pathConfigFlex = getClass().getClassLoader().getResource("richmenu.yml").getPath();
-
                 System.out.println("\n\n\n\n\n getClass().getClassLoader().getResourceAsStream(\"richmenu.yml\") " + getClass().getClassLoader().getResourceAsStream("richmenu.yml").read());
-
                 Yaml YAML = new Yaml();
                 Object yamlConfigAsObject;
                 yamlConfigAsObject = YAML.load(getClass().getClassLoader().getResourceAsStream("richmenu/richmenu-flexs.yml"));
 //                RichMenu richMenu = new ObjectMapper().convertValue(yamlAsObject,RichMenu.class);
 //                System.out.println("GOT ITT -++++++++++++++"+yamlAsObject.toString());
-
                 byte[] bytesOfImageFlex = ByteStreams.toByteArray(getClass().getClassLoader().getResourceAsStream("richmenu-flexs.jpg"));
-
                 String userId = event.getSource().getUserId();
                 if (userId != null) {
                     lineMessagingClient.getProfile(userId)
@@ -223,6 +225,10 @@ public class LineBotController {
             }
             case "monitor": {
                 this.reply(replyToken, new MonitorFlexMessageSupplier().get());
+                break;
+            }
+            case "cmd whoami": {
+                this.replyText(replyToken, callSHH("whoami"));
                 break;
             }
             default:
@@ -305,5 +311,46 @@ public class LineBotController {
     public static class DownloadedContent {
         Path path;
         String uri;
+    }
+
+    private String callSHH(String command) {
+        String user = "root";
+        String password = "dst!hdw";
+        String host = "103.253.72.79";
+        int port = 22;
+
+        //String remoteFile="/home/john/test.txt";
+        //String yes="yes";
+
+        try {
+            JSch jsch = new JSch();
+            Session session = jsch.getSession(user, host, port);
+            session.setPassword(password);
+            session.setConfig("StrictHostKeyChecking", "no");
+            System.out.println("Establishing Connection...");
+            session.connect();
+            Channel channel = session.openChannel("exec");
+
+            // After this it'll ask for confirmation and password
+            ((ChannelExec) channel).setCommand(command);
+            channel.connect();
+
+            InputStream output = channel.getInputStream();
+
+            System.out.println("aafter stream");
+            int readByte = output.read();
+            StringBuilder outputBuffer = new StringBuilder();
+            while (readByte != 0xffffffff) {
+                //System.out.println("read byte" + readByte);
+                outputBuffer.append((char) readByte);
+                readByte = output.read();
+            }
+            System.out.println(outputBuffer.toString());
+            channel.disconnect();
+            return outputBuffer.toString();
+        } catch (Exception e) {
+            System.err.print("error message" + e);
+        }
+       return null;
     }
 }
