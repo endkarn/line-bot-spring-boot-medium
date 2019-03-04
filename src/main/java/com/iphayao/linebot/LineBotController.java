@@ -115,6 +115,7 @@ public class LineBotController {
 
         log.info("Got text message from %s : %s", replyToken, text);
 
+
         switch (text) {
             case "profile": {
                 String userId = event.getSource().getUserId();
@@ -227,9 +228,12 @@ public class LineBotController {
                 this.reply(replyToken, new MonitorFlexMessageSupplier().get());
                 break;
             }
-            case "cmd": {
-                this.replyText(replyToken, "Enter your command...");
-                this.replyText(replyToken, callSHH(text));
+            case "cmd whoami": {
+//                this.replyText(replyToken, "Enter your command...");
+                String[] commandText =text.split(" ");
+                String cmd = commandText[0];
+                String commandLine = commandText[1];
+                this.replyText(replyToken, callSHH(commandLine));
                 break;
             }
             default:
@@ -338,7 +342,7 @@ public class LineBotController {
 
             InputStream output = channel.getInputStream();
 
-            System.out.println("aafter stream");
+            System.out.println("after stream");
             int readByte = output.read();
             StringBuilder outputBuffer = new StringBuilder();
             while (readByte != 0xffffffff) {
