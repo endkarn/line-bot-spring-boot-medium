@@ -115,6 +115,9 @@ public class LineBotController {
 
         log.info("Got text message from %s : %s", replyToken, text);
 
+        if (text.contains("cmd")){
+
+        }
 
         switch (text) {
             case "profile": {
@@ -190,7 +193,6 @@ public class LineBotController {
                 }
                 break;
             }
-
             case "flex restaurant": {
                 this.reply(replyToken, new RestaurantFlexMessageSupplier().get());
                 break;
